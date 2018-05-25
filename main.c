@@ -19,6 +19,8 @@ int main( int argc, char *argv[] )
    {
       unsigned long long start = getTimestamp( );
 
+      handle_user_input( );
+
       // Update the window
       win_update( );
 

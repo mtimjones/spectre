@@ -6,6 +6,20 @@ WINDOW *mainwin;
 // Offset to center game pane in the available window.
 int offsetx, offsety;
 
+int get_user_char( void )
+{
+   int c;
+
+   c = wgetch( mainwin );
+
+   if ( c != ERR )
+   {
+      return c;
+   }
+
+   return 0;
+}
+
 void win_startup( void )
 {
    initscr( );
@@ -39,6 +53,10 @@ void win_update( void )
    {
       mvwprintw( mainwin, ( i+1 ), 1, "%s", get_message( i ) );
    }
+
+   mvwprintw( mainwin, NLINES-2, 1, 
+              "                                                          " );
+   mvwprintw( mainwin, NLINES-2, 1, "$ %s", get_user_input_line() );
 
    wrefresh( mainwin );
 
