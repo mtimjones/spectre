@@ -47,8 +47,6 @@ void win_update( void )
 
    wborder( mainwin, 0, 0, 0, 0, 0, 0, 0, 0 );
 
-   //mvwprintw( mainwin, 28, (MAP_NCOLS)+1, "Exit     %3d,%3d", exit_y, exit_x );
-
    for ( int i = 0 ; i < MAX_MESSAGES ; i++ )
    {
       mvwprintw( mainwin, ( i+1 ), 1, "%s", get_message( i ) );
@@ -56,7 +54,7 @@ void win_update( void )
 
    mvwprintw( mainwin, NLINES-2, 1, 
               "                                                          " );
-   mvwprintw( mainwin, NLINES-2, 1, "$ %s", get_user_input_line() );
+   mvwprintw( mainwin, NLINES-2, 1, "%s", get_user_input_line() );
 
    wrefresh( mainwin );
 

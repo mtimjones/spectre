@@ -7,6 +7,8 @@ int main( int argc, char *argv[] )
 {
    srand( time( NULL ) );
 
+   init_user_input( );
+
    init_messages( );
 
    win_startup( );
