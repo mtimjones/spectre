@@ -14,6 +14,7 @@
 
 // Max number of window messages
 #define MAX_MESSAGES   ( NLINES - 3 )
+#define MAX_MSG_SIZE   ( NCOLS - 2 )
 
 
 // Messages API

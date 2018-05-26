@@ -1,7 +1,8 @@
 
 #define MAX_FILE_NAME       17
 #define MAX_FILE_SIZE      257
-#define MAX_FILES            2
+#define MAX_FILE_ATTR       10
+#define MAX_FILES            3
 #define MAX_PROCESSES       16
 #define MAX_IP_ADRS_SIZE    16
 #define MAX_HOST_INFO_SIZE  50
@@ -10,6 +11,7 @@ typedef struct
 {
    char filename[ MAX_FILE_NAME ];
    char contents[ MAX_FILE_SIZE ];
+   char attributes[ MAX_FILE_ATTR ];
    int  quantity;
 
 } file_t;

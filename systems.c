@@ -12,11 +12,12 @@ typedef struct
 
 system_t systems[ 2 ] = { 
    { .ip_address = "127.0.0.1",
-     .hostinfo = "Neural Implant V4.5663.4A",
+     .hostinfo = "Neural Implant - Home Edition V4.5663.4A",
      .filesystem =
-         { .num_files = 2, 
-            .files[0] = { "README", "Help information\n", 1 },
-            .files[1] = { "bitcoin", "100\n", 1 },
+         { .num_files = 3, 
+            .files[0] = { "README", "Help information", "rw-r--r--", 1 },
+            .files[1] = { "bitcoin", "100", "rw-rw-rw-", 1 },
+            .files[2] = { "tasks", "quest information", "rw-r--r--", 1 },
          },
    },
    { .ip_address = "10.0.0.1",
@@ -72,17 +73,19 @@ typedef struct
 
 void help_command( args *arguments );
 void host_command( args *arguments );
+void ls_command( args *arguments );
 
-#define MAX_COMMANDS 2
+#define MAX_COMMANDS 3
 
 commands command_list[ MAX_COMMANDS ] = {
    { "help", "Get help about available system commands.", help_command },
    { "host", "Get info on the current host.", host_command },
+   { "ls",   "List the files on the current host.", ls_command },
 };
 
 void help_command( args *arguments )
 {
-   char line[80];
+   char line[MAX_MSG_SIZE];
 
    for ( int i = 0 ; i < MAX_COMMANDS ; i++ )
    {
@@ -94,13 +97,29 @@ void help_command( args *arguments )
 
 void host_command( args *arguments )
 {
-   char line[80];
+   char line[MAX_MSG_SIZE];
 
    sprintf( line, "%s (%s)", systems[ 0 ].hostinfo, systems[ 0 ].ip_address );
 
    add_message( line );
 
    return;
+}
+
+void ls_command( args *arguments )
+{
+   char line[MAX_MSG_SIZE];
+
+   for ( int i = 0 ; i < systems[0].filesystem.num_files ; i++ )
+   {
+      sprintf( line, "%s %5u %-17s (%d)", 
+               systems[0].filesystem.files[i].attributes,
+               (unsigned int)strlen( systems[0].filesystem.files[i].contents),
+               systems[0].filesystem.files[i].filename,
+               systems[0].filesystem.files[i].quantity );
+
+      add_message( line );
+   }
 }
 
 void system_command( args *arguments )
