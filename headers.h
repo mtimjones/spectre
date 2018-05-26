@@ -38,4 +38,5 @@ char *get_user_input_line( void );
 
 // Systems API
 void system_exec( char *line );
+extern int current_system;
 

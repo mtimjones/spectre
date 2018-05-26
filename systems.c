@@ -8,9 +8,23 @@ system_t systems[ 2 ] = {
      .hostinfo = "Neural Implant - Home Edition V4.5663.4A",
      .filesystem =
          { .num_files = 3, 
-            .files[0] = { "README", "Help information", "rw-r--r--", 1 },
-            .files[1] = { "bitcoin", "100", "rw-rw-rw-", 1 },
-            .files[2] = { "tasks", "quest information", "rw-r--r--", 1 },
+            .files[0] = 
+               // 1234567890123456789012345678901234567890123456789012345678
+               { "README", 
+                 "CyberOS README\n"
+                 "Type help for command information.\n"
+                 "WARNING: you are required to follow all laws under the\n"
+                 "IT ACT of 2064.  Crimes against people, property, or the\n"
+                 "Government are punishable by death.\n",
+                 "rw-r--r--", 1 },
+            .files[1] = { 
+                 "bitcoin", 
+                 "100\n", 
+                 "rw-rw-rw-", 1 },
+            .files[2] = { 
+                 "tasks", 
+                 "quest information\n", 
+                 "rw-r--r--", 1 },
          },
    },
    { .ip_address = "10.0.0.1",
