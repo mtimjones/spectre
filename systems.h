@@ -54,3 +54,4 @@ typedef struct
 
 } system_t;
 
+extern system_t systems[];
