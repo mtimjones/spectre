@@ -35,3 +35,6 @@ void init_user_input( void );
 void handle_user_input( void );
 char *get_user_input_line( void );
 
+// Systems API
+void system_exec( char *line );
+

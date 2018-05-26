@@ -25,7 +25,7 @@ void handle_user_input( void )
    else if ( c == 0x0d )
    {
       add_message( user_line );
-      // exec_user_input( &user_line[2] );
+      system_exec( &user_line[ 2 ] );
       init_user_input( );
    }
    else if ( isprint( c ) )

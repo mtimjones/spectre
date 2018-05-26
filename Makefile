@@ -1,8 +1,8 @@
 CC=gcc 
-CFLAGS = -I. -std=c99 -g
+CFLAGS = -std=c99 -I. -std=c99 -g
 
 DEPS = headers.h
-OBJS = main.o messages.o screen.o time.o userinput.o
+OBJS = main.o messages.o screen.o time.o userinput.o systems.o
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
