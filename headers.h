@@ -30,6 +30,7 @@ int  get_user_char( void );
 
 // Time API
 unsigned long long getTimestamp( void );
+extern unsigned int GameTime;
 
 // User Input API
 void init_user_input( void );

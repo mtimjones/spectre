@@ -7,12 +7,14 @@ void help_command( args *arguments );
 void host_command( args *arguments );
 void ls_command( args *arguments );
 void cat_command( args *arguments );
+void time_command( args *arguments );
 
 commands command_list[ MAX_COMMANDS ] = {
    { "help", "Get help about available system commands.", help_command },
    { "host", "Get info on the current host.", host_command },
    { "ls",   "List the files on the current host.", ls_command },
    { "cat",  "Cat the contents of a file to the screen.", cat_command },
+   { "time", "Get the current system time.", time_command },
 };
 
 void help_command( args *arguments )
@@ -55,7 +57,6 @@ void ls_command( args *arguments )
       add_message( line );
    }
 }
-
 
 void cat_file( int file_index )
 {
@@ -102,6 +103,17 @@ void cat_command( args *arguments )
    }
 
    add_message( "File not found." );
+
+   return;
+}
+
+void time_command( args *arguments )
+{
+   char line[MAX_MSG_SIZE];
+
+   sprintf( line, "%7.2f", (float)GameTime/10 );
+
+   add_message( line );
 
    return;
 }
