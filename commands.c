@@ -95,23 +95,16 @@ void cat_file( int file_index )
 
 void cat_command( args *arguments )
 {
+   int file_index;
+
    if ( arguments->num_args < 2 ) return;
 
-   for ( int i = 0 ; i < MAX_FILES ; i++ )
-   {
-      if ( systems[ current_system ].filesystem.files[i].active )
-      {
-         int size = MAX( strlen( systems[ current_system ].
-                                    filesystem.files[i].filename ),
-                         strlen( arguments->args[ 1 ] ) );
+   file_index = find_file( arguments->args[ 1 ] );
 
-         if ( strncmp( systems[ current_system ].filesystem.files[i].filename, 
-                       arguments->args[ 1 ], size ) == 0 )
-         {
-            cat_file( i );
-            return;
-         }
-      }
+   if ( file_index != -1 )
+   {
+      cat_file( file_index );
+      return;
    }
 
    add_message( "File not found." );
@@ -231,31 +224,26 @@ void kill_command( args *arguments )
 
 void exec_command( args *arguments )
 {
-   char line[ MAX_MSG_SIZE ];
-   filesystem_t *filesystem = &systems[ current_system ].filesystem;
-   processes_t *processes = &systems[ current_system ].processes;
+   int  file_index, process_index;
 
-   // Find the file of interest.
-   for ( int i = 0 ; i < MAX_FILES ; i++ )
+   file_index = find_file( arguments->args[ 1 ] );
+
+   if ( file_index != -1 )
    {
-      if ( filesystem->files[ i ].active )
+      process_index = find_empty_process( );
+
+      if ( process_index != -1 )
       {
-         int size = MAX( strlen( filesystem->files[i].filename ),
-                         strlen( arguments->args[ 1 ] ) );
-
-         if ( strncmp( filesystem->files[i].filename, 
-                       arguments->args[ 1 ], size ) == 0 )
-         {
-            (void)parse_attribute( filesystem->files[i].contents, "InstallTime:" );
-            (void)parse_attribute( filesystem->files[i].contents, "RunTime:" );
-
-         }
+         create_process_from_file( 
+            process_index, file_index, 
+            ( unsigned int )atoi( arguments->args[ 2 ] ) );
       }
-
+      else
+      {
+         add_message( "Process space is full." );
+      }
 
    }
 
-
-
-
+   return;
 }

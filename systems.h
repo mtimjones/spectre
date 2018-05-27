@@ -13,8 +13,6 @@ typedef struct
    char           filename[ MAX_FILE_NAME ];
    char           contents[ MAX_FILE_SIZE ];
    char           attributes[ MAX_FILE_ATTR ];
-   unsigned int   install_time;
-   unsigned int   run_time;
    int            quantity;
    unsigned int   active;
 } file_t;
@@ -43,9 +41,12 @@ typedef struct
 //   file_t*        file;
    char           name[ MAX_FILE_NAME ];
    unsigned short pid;
+   unsigned int   install_time;
+   unsigned int   run_time;
    unsigned int   strength;
    unsigned int   argument;
    state_t        state;
+   unsigned int   state_value;
    process_flags  flags;
 } process_t;
 
@@ -62,6 +63,7 @@ typedef struct
 typedef struct
 {
    unsigned int timezone:16;
+   unsigned int active:1;
    unsigned int probeable:1;
    unsigned int discoverable:1;
    unsigned int tracingActive:1;

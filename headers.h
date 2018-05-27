@@ -45,9 +45,12 @@ void system_simulate( void );
 void system_exec( char *line );
 extern int current_system;
 
-// Parsers API
+// Helpers API
 void parse_args( char *line, args *arguments );
 int  parse_attribute( char *line, char *attribute );
+int  find_file( char *filename );
+int  find_empty_process( void );
+void create_process_from_file( int pindex, int findex, unsigned int arg );
 
 
 
