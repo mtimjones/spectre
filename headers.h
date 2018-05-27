@@ -9,8 +9,8 @@
 #define NLINES      ( 32 )
 #define NCOLS       ( 60 )
 
-// 50Hz Game Loop (50FPS)
-#define MS_PER_FRAME  20
+// 100Hz Game Loop
+#define MS_PER_FRAME  10
 
 // Max number of window messages
 #define MAX_MESSAGES   ( NLINES - 3 )
@@ -38,6 +38,7 @@ void handle_user_input( void );
 char *get_user_input_line( void );
 
 // Systems API
+void system_simulate( void );
 void system_exec( char *line );
 extern int current_system;
 

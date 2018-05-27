@@ -37,8 +37,8 @@ system_t systems[ NUM_SYSTEMS ] = {
             .files[3] = {
                   "tracer",
                    "Trace hosts from this system.\n"
-                   "InstallTime: 3\n"
-                   "RunTime: 2\n",
+                   "InstallTime: 300\n"
+                   "RunTime: 200\n",
                   "rwxrwxrwx", 
                   .quantity = 1 },
       },
@@ -143,4 +143,17 @@ void system_exec( char* line )
    return;
 }
 
+
+void system_simulate( void )
+{
+   static int ticks = 500;
+
+   if ( --ticks == 0 )
+   {
+      add_message("Ticks..." );
+      ticks = 500;
+   }
+
+   return;
+}
 

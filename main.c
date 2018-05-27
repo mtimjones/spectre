@@ -24,6 +24,8 @@ int main( int argc, char *argv[] )
 
       handle_user_input( );
 
+      system_simulate( );
+
       // Update the window
       win_update( );
 

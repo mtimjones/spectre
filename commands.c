@@ -168,7 +168,8 @@ void probe_command( args *arguments )
 void ps_command( args *arguments )
 {
    char line[ MAX_MSG_SIZE ];
-   char *state_names[] = { "INVALID", "RUNNING", "SLEEPING", "ZOMBIE" };
+   char *state_names[] = { "INVALID", "INSTALLING", "RUNNING", 
+                           "SLEEPING", "ZOMBIE" };
    processes_t *processes = &systems[ current_system ].processes;
 
    add_message( "PID  NAME              STATE" );
