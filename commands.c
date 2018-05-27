@@ -8,13 +8,15 @@ void host_command( args *arguments );
 void ls_command( args *arguments );
 void cat_command( args *arguments );
 void time_command( args *arguments );
+void probe_command( args *arguments );
 
 commands command_list[ MAX_COMMANDS ] = {
-   { "help", "Get help about available system commands.", help_command },
-   { "host", "Get info on the current host.", host_command },
-   { "ls",   "List the files on the current host.", ls_command },
-   { "cat",  "Cat the contents of a file to the screen.", cat_command },
-   { "time", "Get the current system time.", time_command },
+   { "help",  "Get help about available system commands.", help_command },
+   { "host",  "Get info on the current host.", host_command },
+   { "ls",    "List the files on the current host.", ls_command },
+   { "cat",   "Cat the contents of a file to the screen.", cat_command },
+   { "time",  "Get the current system time.", time_command },
+   { "probe", "Probe a system to determine its type.", probe_command },
 };
 
 void help_command( args *arguments )
@@ -111,10 +113,50 @@ void time_command( args *arguments )
 {
    char line[MAX_MSG_SIZE];
 
-   sprintf( line, "%7.2f", (float)GameTime/10 );
+   sprintf( line, "%7.2f", 
+            (float)(GameTime/10 + systems[ current_system ].flags.Timezone ) );
 
    add_message( line );
 
    return;
 }
 
+void probe_command( args *arguments )
+{
+   if ( arguments->num_args < 2 ) return;
+
+   for ( int i = 0 ; i < NUM_SYSTEMS ; i++ )
+   {
+      int size = MAX( strlen( systems[ i ].ip_address ),
+                      strlen( arguments->args[ 1 ] ) );
+
+      if ( strncmp( systems[ i ].ip_address, 
+            arguments->args[ 1 ], size ) == 0 )
+      {
+         if ( systems[ i ].flags.Discoverable )
+         {
+            if ( systems[ i ].flags.Probeable )
+            {
+               char line[MAX_MSG_SIZE];
+
+               sprintf( line, "%s (%s)", systems[ i ].hostinfo, 
+                           systems[ i ].ip_address );
+
+               add_message( line );
+            }
+            else
+            {
+               add_message( "Host found but cannot probe." );
+            }
+
+            return;
+         }
+
+      }
+
+   }
+
+   add_message( "Host not found." );
+
+   return;
+}

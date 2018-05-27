@@ -14,6 +14,7 @@ int main( int argc, char *argv[] )
    win_startup( );
 
    add_message( "Connected to 127.0.0.1." );
+   add_message( "Type help for more information." );
 
    win_update( );
 

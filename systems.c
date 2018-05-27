@@ -3,7 +3,7 @@
 #include "commands.h"
 #include <ctype.h>
 
-system_t systems[ 2 ] = { 
+system_t systems[ NUM_SYSTEMS ] = { 
    { .ip_address = "127.0.0.1",
      .hostinfo = "Neural Implant - Home Edition V4.5663.4A",
      .filesystem =
@@ -26,10 +26,20 @@ system_t systems[ 2 ] = {
                  "quest information\n", 
                  "rw-r--r--", 1 },
          },
+     .flags = {
+         .Timezone = 0,
+         .Probeable = 1,
+         .Discoverable = 1,
+      },
    },
    { .ip_address = "10.0.0.1",
      .hostinfo = "Test host info",
-      .filesystem = {},
+     .filesystem = {},
+      .flags = {
+         .Timezone = 300,
+         .Probeable = 0,
+         .Discoverable = 0,
+      },
    },
 };
 

@@ -45,13 +45,24 @@ typedef struct
 
 typedef struct
 {
+   unsigned int Timezone:16;
+   unsigned int Probeable:1;
+   unsigned int Discoverable:1;
+
+} system_flags;
+
+typedef struct
+{
    char         ip_address[ MAX_IP_ADRS_SIZE ];
    char         hostinfo[ MAX_HOST_INFO_SIZE ];
    filesystem_t filesystem;
 //   processes_t  processes;
 //   unsigned int delay;
 //   sim_func_t   ServerSimulationFunction;
+   system_flags flags;
 
 } system_t;
+
+#define NUM_SYSTEMS   2
 
 extern system_t systems[];
