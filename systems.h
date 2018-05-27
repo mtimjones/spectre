@@ -2,10 +2,11 @@
 #define MAX_FILE_NAME       17
 #define MAX_FILE_SIZE      257
 #define MAX_FILE_ATTR       10
-#define MAX_FILES            3
+#define MAX_FILES           10
 #define MAX_PROCESSES       16
 #define MAX_IP_ADRS_SIZE    16
 #define MAX_HOST_INFO_SIZE  50
+#define MAX_TRACEABLE_HOSTS  5
 
 typedef struct
 {
@@ -13,19 +14,19 @@ typedef struct
    char           contents[ MAX_FILE_SIZE ];
    char           attributes[ MAX_FILE_ATTR ];
    unsigned int   install_time;
+   unsigned int   run_time;
    int            quantity;
-
 } file_t;
 
 typedef struct
 {
    int num_files;
    file_t files[ MAX_FILES ];
-
 } filesystem_t;
 
 typedef enum {
    INVALID,
+   INSTALLING,
    RUNNING,
    SLEEPING,
    ZOMBIE,
@@ -35,7 +36,6 @@ typedef struct
 {
    unsigned int Active:1;
    unsigned int Killable:1;
-   
 } process_flags;
 
 typedef struct
@@ -47,15 +47,18 @@ typedef struct
    unsigned int   argument;
    state_t        state;
    process_flags  flags;
-
 } process_t;
 
 typedef struct
 {
    int num_processes;
    process_t process[ MAX_PROCESSES ];
-
 } processes_t;
+
+typedef struct
+{
+   char ip_address[MAX_TRACEABLE_HOSTS][ MAX_IP_ADRS_SIZE ];
+} traceable_hosts_t;
 
 typedef struct
 {
@@ -64,7 +67,6 @@ typedef struct
    unsigned int Discoverable:1;
    unsigned int TracingActive:1;
    unsigned int MiningActive:1;
-
 } system_flags;
 
 typedef struct
@@ -76,7 +78,6 @@ typedef struct
 //   unsigned int delay;
 //   sim_func_t   ServerSimulationFunction;
    system_flags flags;
-
 } system_t;
 
 #define NUM_SYSTEMS   2

@@ -13,24 +13,34 @@ system_t systems[ NUM_SYSTEMS ] = {
          .Discoverable = 1,
       },
       .filesystem = { 
-            .num_files = 3, 
+            .num_files = 4, 
             .files[0] = 
                // 1234567890123456789012345678901234567890123456789012345678
-               { "README", 
-                 "CyberOS README\n"
-                 "Type help for command information.\n"
-                 "WARNING: you are required to follow all laws under the\n"
-                 "IT ACT of 2064.  Crimes against people, property, or the\n"
-                 "Government are punishable by death.\n",
-                 "rw-r--r--", 0, 1 },
+               {  "README", 
+                   "CyberOS README\n"
+                   "Type help for command information.\n"
+                   "WARNING: you are required to follow all laws under the\n"
+                   "IT ACT of 2064.  Crimes against people, property, or the\n"
+                   "Government are punishable by death.\n",
+                  .attributes = "rw-r--r--", 
+                  .quantity = 1 },
             .files[1] = { 
-                 "bitcoin", 
-                 "100\n", 
-                 "rw-rw-rw-", 0, 1 },
+                  "bitcoin", 
+                   "100\n", 
+                  "rw-rw-rw-", 
+                  .quantity = 1 },
             .files[2] = { 
-                 "tasks", 
-                 "quest information\n", 
-                 "rw-r--r--", 0, 1 },
+                  "tasks", 
+                   "quest information\n", 
+                  "rw-r--r--", 
+                  .quantity = 1 },
+            .files[3] = {
+                  "tracer",
+                   "Trace hosts from this system.\n"
+                   "InstallTime: 3\n"
+                   "RunTime: 2\n",
+                  "rwxrwxrwx", 
+                  .quantity = 1 },
       },
       .processes = {
          .num_processes = 2,
