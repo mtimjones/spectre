@@ -5,6 +5,9 @@
 #include <strings.h>
 #include <string.h>
 
+#include "systems.h"
+#include "commands.h"
+
 // Size of the UI
 #define NLINES      ( 32 )
 #define NCOLS       ( 60 )
@@ -41,4 +44,10 @@ char *get_user_input_line( void );
 void system_simulate( void );
 void system_exec( char *line );
 extern int current_system;
+
+// Parsers API
+void parse_args( char *line, args *arguments );
+int  parse_attribute( char *line, char *attribute );
+
+
 

@@ -16,11 +16,11 @@ typedef struct
    unsigned int   install_time;
    unsigned int   run_time;
    int            quantity;
+   unsigned int   active;
 } file_t;
 
 typedef struct
 {
-   int num_files;
    file_t files[ MAX_FILES ];
 } filesystem_t;
 
@@ -34,8 +34,8 @@ typedef enum {
 
 typedef struct
 {
-   unsigned int Active:1;
-   unsigned int Killable:1;
+   unsigned int active:1;
+   unsigned int killable:1;
 } process_flags;
 
 typedef struct
@@ -51,7 +51,6 @@ typedef struct
 
 typedef struct
 {
-   int num_processes;
    process_t process[ MAX_PROCESSES ];
 } processes_t;
 
@@ -62,11 +61,11 @@ typedef struct
 
 typedef struct
 {
-   unsigned int Timezone:16;
-   unsigned int Probeable:1;
-   unsigned int Discoverable:1;
-   unsigned int TracingActive:1;
-   unsigned int MiningActive:1;
+   unsigned int timezone:16;
+   unsigned int probeable:1;
+   unsigned int discoverable:1;
+   unsigned int tracingActive:1;
+   unsigned int miningActive:1;
 } system_flags;
 
 typedef struct

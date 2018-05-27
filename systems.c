@@ -1,6 +1,4 @@
 #include "headers.h"
-#include "systems.h"
-#include "commands.h"
 #include <ctype.h>
 
 system_t systems[ NUM_SYSTEMS ] = { 
@@ -8,12 +6,11 @@ system_t systems[ NUM_SYSTEMS ] = {
       .ip_address = "127.0.0.1",
       .hostinfo = "Neural Implant - Home Edition V4.5663.4A",
       .flags = {
-         .Timezone = 0,
-         .Probeable = 1,
-         .Discoverable = 1,
+         .timezone = 0,
+         .probeable = 1,
+         .discoverable = 1,
       },
       .filesystem = { 
-            .num_files = 4, 
             .files[0] = 
                // 1234567890123456789012345678901234567890123456789012345678
                {  "README", 
@@ -23,27 +20,30 @@ system_t systems[ NUM_SYSTEMS ] = {
                    "IT ACT of 2064.  Crimes against people, property, or the\n"
                    "Government are punishable by death.\n",
                   .attributes = "rw-r--r--", 
-                  .quantity = 1 },
+                  .quantity = 1,
+                  .active = 1 },
             .files[1] = { 
                   "bitcoin", 
                    "100\n", 
                   "rw-rw-rw-", 
-                  .quantity = 1 },
+                  .quantity = 1,
+                  .active = 1 },
             .files[2] = { 
                   "tasks", 
                    "quest information\n", 
                   "rw-r--r--", 
-                  .quantity = 1 },
+                  .quantity = 1,
+                  .active = 1 },
             .files[3] = {
                   "tracer",
                    "Trace hosts from this system.\n"
                    "InstallTime: 300\n"
                    "RunTime: 200\n",
                   "rwxrwxrwx", 
-                  .quantity = 1 },
+                  .quantity = 1,
+                  .active = 1 },
       },
       .processes = {
-         .num_processes = 2,
          .process[0] = {
             .name = "CyberOS uKernel",
             .pid = 1335,
@@ -51,8 +51,8 @@ system_t systems[ NUM_SYSTEMS ] = {
             .argument = 0,
             .state = RUNNING,
             .flags = {
-               .Active = 1,
-               .Killable = 0,
+               .active = 1,
+               .killable = 0,
             },
          },
          .process[1] = {
@@ -62,8 +62,8 @@ system_t systems[ NUM_SYSTEMS ] = {
             .argument = 0,
             .state = RUNNING,
             .flags = {
-               .Active = 1,
-               .Killable = 1,
+               .active = 1,
+               .killable = 1,
             },
          },
       },
@@ -73,43 +73,14 @@ system_t systems[ NUM_SYSTEMS ] = {
      .hostinfo = "Test host info",
      .filesystem = {},
       .flags = {
-         .Timezone = 300,
-         .Probeable = 0,
-         .Discoverable = 0,
+         .timezone = 300,
+         .probeable = 0,
+         .discoverable = 0,
       },
    },
 };
 
 int current_system = 0;
-
-
-void parse_args( char *line, args *arguments )
-{
-   arguments->num_args = 0;
-
-   while ( *line != 0 )
-   {
-      // Skip leading white space.
-      while ( isspace( *line ) && ( *line != 0 ) ) line++;
-      
-      // If at the end of line, return
-      if ( *line == 0 ) return;
-
-      // We're at non-white-space, so record this argument.
-      arguments->args[ arguments->num_args++ ] = line;
-
-      // Skip this argument.
-      while ( *line != ' ' && *line != 0 ) line++;
-
-      // We've found a space, drop a NULL and step to the next char.
-      if ( *line == ' ' ) *line++ = 0;
-
-      // If we have MAX_ARGS arguments, just return.
-      if ( arguments->num_args == MAX_ARGS ) return;
-   }
-
-   return;
-}
 
 
 void system_command( args *arguments )

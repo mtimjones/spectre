@@ -1,7 +1,5 @@
 #include "headers.h"
-#include "systems.h"
 #include <ctype.h>
-#include "commands.h"
 
 void help_command( args *arguments );
 void host_command( args *arguments );
@@ -11,6 +9,7 @@ void time_command( args *arguments );
 void probe_command( args *arguments );
 void ps_command( args *arguments );
 void kill_command( args *arguments );
+void exec_command( args *arguments );
 
 commands command_list[ MAX_COMMANDS ] = {
    { "help",  "Get help about available system commands.", help_command },
@@ -21,6 +20,7 @@ commands command_list[ MAX_COMMANDS ] = {
    { "probe", "Probe a system to determine its type.", probe_command },
    { "ps",    "List the processes on the current host.", ps_command },
    { "kill",  "Kill a process on the current system.", kill_command },
+   { "exec",  "Create a process from an executable file.", exec_command },
 };
 
 void help_command( args *arguments )
@@ -51,16 +51,19 @@ void ls_command( args *arguments )
 {
    char line[MAX_MSG_SIZE];
 
-   for ( int i = 0 ; i < systems[ current_system ].filesystem.num_files ; i++ )
+   for ( int i = 0 ; i < MAX_FILES ; i++ )
    {
-      sprintf( line, "%s %5u %-17s (%d)", 
-               systems[ current_system ].filesystem.files[i].attributes,
-               (unsigned int)strlen( 
-                  systems[ current_system ].filesystem.files[i].contents),
-               systems[ current_system ].filesystem.files[i].filename,
-               systems[ current_system ].filesystem.files[i].quantity );
+      if ( systems[ current_system].filesystem.files[i].active )
+      {
+         sprintf( line, "%s %5u %-17s (%d)", 
+                  systems[ current_system ].filesystem.files[i].attributes,
+                  (unsigned int)strlen( 
+                     systems[ current_system ].filesystem.files[i].contents),
+                  systems[ current_system ].filesystem.files[i].filename,
+                  systems[ current_system ].filesystem.files[i].quantity );
 
-      add_message( line );
+         add_message( line );
+      }
    }
 }
 
@@ -94,17 +97,20 @@ void cat_command( args *arguments )
 {
    if ( arguments->num_args < 2 ) return;
 
-   for ( int i = 0 ; i < systems[ current_system ].filesystem.num_files ; i++ )
+   for ( int i = 0 ; i < MAX_FILES ; i++ )
    {
-      int size = MAX( strlen( systems[ current_system ].
-                                 filesystem.files[i].filename ),
-                      strlen( arguments->args[ 1 ] ) );
-
-      if ( strncmp( systems[ current_system ].filesystem.files[i].filename, 
-                    arguments->args[ 1 ], size ) == 0 )
+      if ( systems[ current_system ].filesystem.files[i].active )
       {
-         cat_file( i );
-         return;
+         int size = MAX( strlen( systems[ current_system ].
+                                    filesystem.files[i].filename ),
+                         strlen( arguments->args[ 1 ] ) );
+
+         if ( strncmp( systems[ current_system ].filesystem.files[i].filename, 
+                       arguments->args[ 1 ], size ) == 0 )
+         {
+            cat_file( i );
+            return;
+         }
       }
    }
 
@@ -118,7 +124,7 @@ void time_command( args *arguments )
    char line[MAX_MSG_SIZE];
 
    sprintf( line, "%7.2f", 
-            (float)(GameTime/10 + systems[ current_system ].flags.Timezone ) );
+            (float)(GameTime/10 + systems[ current_system ].flags.timezone ) );
 
    add_message( line );
 
@@ -137,9 +143,9 @@ void probe_command( args *arguments )
       if ( strncmp( systems[ i ].ip_address, 
             arguments->args[ 1 ], size ) == 0 )
       {
-         if ( systems[ i ].flags.Discoverable )
+         if ( systems[ i ].flags.discoverable )
          {
-            if ( systems[ i ].flags.Probeable )
+            if ( systems[ i ].flags.probeable )
             {
                char line[MAX_MSG_SIZE];
 
@@ -176,7 +182,7 @@ void ps_command( args *arguments )
 
    for ( int i = 0 ; i < MAX_PROCESSES ; i++ )
    {
-      if ( processes->process[i].flags.Active )
+      if ( processes->process[i].flags.active )
       {
          sprintf( line, "%4d %-17s %s", processes->process[i].pid, 
                   processes->process[i].name, 
@@ -199,17 +205,20 @@ void kill_command( args *arguments )
    {
       if ( processes->process[ i ].pid == atoi( arguments->args[ 1 ] ) )
       {
-         if ( processes->process[ i ].flags.Killable )
+         if ( processes->process[ i ].flags.active )
          {
-            processes->process[ i ].flags.Active = 0;
-            sprintf( line, "[%4d]+ Killed  %s",
-                     processes->process[ i ].pid,
-                     processes->process[ i ].name );
-            add_message( line );
-         }
-         else
-         {
-            add_message( "Process not responding to kill request." );
+            if ( processes->process[ i ].flags.killable )
+            {
+               processes->process[ i ].flags.active = 0;
+               sprintf( line, "[%4d]+ Killed  %s",
+                        processes->process[ i ].pid,
+                        processes->process[ i ].name );
+               add_message( line );
+            }
+            else
+            {
+               add_message( "Process not responding to kill request." );
+            }
          }
          return;
       }
@@ -218,4 +227,35 @@ void kill_command( args *arguments )
    add_message( "Process not found." );
 
    return;
+}
+
+void exec_command( args *arguments )
+{
+   char line[ MAX_MSG_SIZE ];
+   filesystem_t *filesystem = &systems[ current_system ].filesystem;
+   processes_t *processes = &systems[ current_system ].processes;
+
+   // Find the file of interest.
+   for ( int i = 0 ; i < MAX_FILES ; i++ )
+   {
+      if ( filesystem->files[ i ].active )
+      {
+         int size = MAX( strlen( filesystem->files[i].filename ),
+                         strlen( arguments->args[ 1 ] ) );
+
+         if ( strncmp( filesystem->files[i].filename, 
+                       arguments->args[ 1 ], size ) == 0 )
+         {
+            (void)parse_attribute( filesystem->files[i].contents, "InstallTime:" );
+            (void)parse_attribute( filesystem->files[i].contents, "RunTime:" );
+
+         }
+      }
+
+
+   }
+
+
+
+
 }
