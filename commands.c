@@ -10,6 +10,7 @@ void cat_command( args *arguments );
 void time_command( args *arguments );
 void probe_command( args *arguments );
 void ps_command( args *arguments );
+void kill_command( args *arguments );
 
 commands command_list[ MAX_COMMANDS ] = {
    { "help",  "Get help about available system commands.", help_command },
@@ -19,6 +20,7 @@ commands command_list[ MAX_COMMANDS ] = {
    { "time",  "Get the current system time.", time_command },
    { "probe", "Probe a system to determine its type.", probe_command },
    { "ps",    "List the processes on the current host.", ps_command },
+   { "kill",  "Kill a process on the current system.", kill_command },
 };
 
 void help_command( args *arguments )
@@ -185,4 +187,34 @@ void ps_command( args *arguments )
    return;
 }
 
+void kill_command( args *arguments )
+{
+   char line[ MAX_MSG_SIZE ];
+   processes_t *processes = &systems[ current_system ].processes;
 
+   if ( arguments->num_args < 2 ) return;
+
+   for ( int i = 0 ; i < MAX_PROCESSES ; i++ )
+   {
+      if ( processes->process[ i ].pid == atoi( arguments->args[ 1 ] ) )
+      {
+         if ( processes->process[ i ].flags.Killable )
+         {
+            processes->process[ i ].flags.Active = 0;
+            sprintf( line, "[%4d]+ Killed  %s",
+                     processes->process[ i ].pid,
+                     processes->process[ i ].name );
+            add_message( line );
+         }
+         else
+         {
+            add_message( "Process not responding to kill request." );
+         }
+         return;
+      }
+   }
+
+   add_message( "Process not found." );
+
+   return;
+}
