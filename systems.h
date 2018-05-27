@@ -9,10 +9,11 @@
 
 typedef struct
 {
-   char filename[ MAX_FILE_NAME ];
-   char contents[ MAX_FILE_SIZE ];
-   char attributes[ MAX_FILE_ATTR ];
-   int  quantity;
+   char           filename[ MAX_FILE_NAME ];
+   char           contents[ MAX_FILE_SIZE ];
+   char           attributes[ MAX_FILE_ATTR ];
+   unsigned int   install_time;
+   int            quantity;
 
 } file_t;
 
@@ -23,16 +24,29 @@ typedef struct
 
 } filesystem_t;
 
-typedef unsigned short pid_t;
+typedef enum {
+   INVALID,
+   RUNNING,
+   SLEEPING,
+   ZOMBIE,
+} state_t;
 
 typedef struct
 {
-   file_t*      file;
-   pid_t        pid;
-   unsigned int strength;
-   unsigned int install_time;
-   unsigned int argument;
-   unsigned int state;
+   unsigned int Active:1;
+   unsigned int Killable:1;
+   
+} process_flags;
+
+typedef struct
+{
+//   file_t*        file;
+   char           name[ MAX_FILE_NAME ];
+   unsigned short pid;
+   unsigned int   strength;
+   unsigned int   argument;
+   state_t        state;
+   process_flags  flags;
 
 } process_t;
 
@@ -48,6 +62,8 @@ typedef struct
    unsigned int Timezone:16;
    unsigned int Probeable:1;
    unsigned int Discoverable:1;
+   unsigned int TracingActive:1;
+   unsigned int MiningActive:1;
 
 } system_flags;
 
@@ -56,7 +72,7 @@ typedef struct
    char         ip_address[ MAX_IP_ADRS_SIZE ];
    char         hostinfo[ MAX_HOST_INFO_SIZE ];
    filesystem_t filesystem;
-//   processes_t  processes;
+   processes_t  processes;
 //   unsigned int delay;
 //   sim_func_t   ServerSimulationFunction;
    system_flags flags;

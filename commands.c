@@ -9,6 +9,7 @@ void ls_command( args *arguments );
 void cat_command( args *arguments );
 void time_command( args *arguments );
 void probe_command( args *arguments );
+void ps_command( args *arguments );
 
 commands command_list[ MAX_COMMANDS ] = {
    { "help",  "Get help about available system commands.", help_command },
@@ -17,6 +18,7 @@ commands command_list[ MAX_COMMANDS ] = {
    { "cat",   "Cat the contents of a file to the screen.", cat_command },
    { "time",  "Get the current system time.", time_command },
    { "probe", "Probe a system to determine its type.", probe_command },
+   { "ps",    "List the processes on the current host.", ps_command },
 };
 
 void help_command( args *arguments )
@@ -160,3 +162,27 @@ void probe_command( args *arguments )
 
    return;
 }
+
+void ps_command( args *arguments )
+{
+   char line[ MAX_MSG_SIZE ];
+   char *state_names[] = { "INVALID", "RUNNING", "SLEEPING", "ZOMBIE" };
+   processes_t *processes = &systems[ current_system ].processes;
+
+   add_message( "PID  NAME              STATE" );
+
+   for ( int i = 0 ; i < MAX_PROCESSES ; i++ )
+   {
+      if ( processes->process[i].flags.Active )
+      {
+         sprintf( line, "%4d %-17s %s", processes->process[i].pid, 
+                  processes->process[i].name, 
+                  state_names[ processes->process[i].state ] );
+         add_message( line );
+      }
+   }
+
+   return;
+}
+
+

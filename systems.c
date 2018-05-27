@@ -4,10 +4,16 @@
 #include <ctype.h>
 
 system_t systems[ NUM_SYSTEMS ] = { 
-   { .ip_address = "127.0.0.1",
-     .hostinfo = "Neural Implant - Home Edition V4.5663.4A",
-     .filesystem =
-         { .num_files = 3, 
+   { 
+      .ip_address = "127.0.0.1",
+      .hostinfo = "Neural Implant - Home Edition V4.5663.4A",
+      .flags = {
+         .Timezone = 0,
+         .Probeable = 1,
+         .Discoverable = 1,
+      },
+      .filesystem = { 
+            .num_files = 3, 
             .files[0] = 
                // 1234567890123456789012345678901234567890123456789012345678
                { "README", 
@@ -16,22 +22,43 @@ system_t systems[ NUM_SYSTEMS ] = {
                  "WARNING: you are required to follow all laws under the\n"
                  "IT ACT of 2064.  Crimes against people, property, or the\n"
                  "Government are punishable by death.\n",
-                 "rw-r--r--", 1 },
+                 "rw-r--r--", 0, 1 },
             .files[1] = { 
                  "bitcoin", 
                  "100\n", 
-                 "rw-rw-rw-", 1 },
+                 "rw-rw-rw-", 0, 1 },
             .files[2] = { 
                  "tasks", 
                  "quest information\n", 
-                 "rw-r--r--", 1 },
+                 "rw-r--r--", 0, 1 },
+      },
+      .processes = {
+         .num_processes = 2,
+         .process[0] = {
+            .name = "CyberOS uKernel",
+            .pid = 1335,
+            .strength = 15,
+            .argument = 0,
+            .state = RUNNING,
+            .flags = {
+               .Active = 1,
+               .Killable = 0,
+            },
          },
-     .flags = {
-         .Timezone = 0,
-         .Probeable = 1,
-         .Discoverable = 1,
+         .process[1] = {
+            .name = "Sentry",
+            .pid = 6168,
+            .strength = 20,
+            .argument = 0,
+            .state = RUNNING,
+            .flags = {
+               .Active = 1,
+               .Killable = 1,
+            },
+         },
       },
    },
+
    { .ip_address = "10.0.0.1",
      .hostinfo = "Test host info",
      .filesystem = {},
