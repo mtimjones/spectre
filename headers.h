@@ -7,6 +7,7 @@
 
 #include "systems.h"
 #include "commands.h"
+#include "exploits.h"
 
 // Size of the UI
 #define NLINES      ( 32 )

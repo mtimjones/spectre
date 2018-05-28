@@ -40,6 +40,7 @@ system_t systems[ NUM_SYSTEMS ] = {
                    "InstallTime: 300\n"
                    "RunTime: 200\n",
                   "rwxrwxrwx", 
+                  .exploit = tracer_func,
                   .quantity = 1,
                   .active = 1 },
       },
@@ -118,16 +119,63 @@ void system_exec( char* line )
 void system_simulate( void )
 {
    processes_t *processes = &systems[ current_system ].processes;
+   int ret;
 
    for ( int i = 0 ; i < MAX_PROCESSES ; i++ )
    {
       if ( processes->process[ i ].flags.active == 1 )
       {
-         
+         // If state value is non-zero, process the state
+         if ( processes->process[ i ].state_value )
+         {
+            switch( processes->process[ i ].state )
+            {
+               case INSTALLING:
+                  processes->process[ i ].state_value -= 1;
+                  if ( processes->process[ i ].state_value <= 0 )
+                  {
+                     processes->process[ i ].state = RUNNING;
+                     processes->process[ i ].state_value =
+                        processes->process[ i ].run_time;
+                  }
+                  break;
 
+               case RUNNING:
+                  processes->process[ i ].state_value -= 1;
+                  if ( processes->process[ i ].state_value <= 0 )
+                  {
+                     processes->process[ i ].state_value = 
+                        processes->process[ i ].run_time;
+                     if ( processes->process[ i ].exploit )
+                     {
+                        ret = (processes->process[ i ].exploit)
+                                 ( current_system );
 
+                        if ( ret == 1 )
+                        {
+                           processes->process[ i ].flags.active = 0;
+                        }
+                     }
+                  }
+                  break;
+
+               case SLEEPING:
+                  processes->process[ i ].state_value -= 1;
+                  if ( processes->process[ i ].state_value <= 0 )
+                  {
+                     processes->process[ i ].state = RUNNING;
+                     processes->process[ i ].state_value =
+                        processes->process[ i ].run_time;
+                  }
+                  break;
+
+               case INVALID:
+               case ZOMBIE:
+               default:
+                  break;
+            }
+         }
       }
-
    }
 
    return;

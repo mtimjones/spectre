@@ -8,6 +8,8 @@
 #define MAX_HOST_INFO_SIZE  50
 #define MAX_TRACEABLE_HOSTS  5
 
+typedef int (*exploit_func)( int system );
+
 typedef struct
 {
    char           filename[ MAX_FILE_NAME ];
@@ -15,6 +17,7 @@ typedef struct
    char           attributes[ MAX_FILE_ATTR ];
    int            quantity;
    unsigned int   active;
+   exploit_func   exploit;
 } file_t;
 
 typedef struct
@@ -36,8 +39,6 @@ typedef struct
    unsigned int killable:1;
 } process_flags;
 
-typedef void (*exploit_func)( int system );
-
 typedef struct
 {
 //   file_t*        file;
@@ -48,7 +49,7 @@ typedef struct
    unsigned int   strength;
    unsigned int   argument;
    state_t        state;
-   unsigned int   state_value;
+   int            state_value;
    process_flags  flags;
    exploit_func   exploit;
 } process_t;

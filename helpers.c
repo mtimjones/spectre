@@ -111,6 +111,7 @@ void create_process_from_file( int pindex, int findex, unsigned int arg )
    strcpy( processes->process[ pindex ].name, 
             filesystem->files[ findex ].filename );
    processes->process[ pindex ].pid = getRand( 10000 );
+   processes->process[ pindex ].exploit = filesystem->files[ findex ].exploit;
 
    // Setup the process state
    processes->process[ pindex ].state = INSTALLING;
