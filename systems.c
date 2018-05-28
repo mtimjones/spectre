@@ -84,20 +84,21 @@ system_t systems[ NUM_SYSTEMS ] = {
       .filesystem = {
             .files[0] = { 
                   "bitcoin", 
-                   "200", 
+                   "200\n", 
                   "rw-rw-rw-", 
                   .quantity = 1,
                   .active = 1 },
             .files[1] = { 
                   "mapinfo", 
-                   "World street map", 
+                   "World street map\n"
+                   "** binary data\n", 
                   "rw-rw-rw-", 
                   .quantity = 1,
                   .active = 1 },
             .files[2] = { 
                   "messages", 
-                   "Received from 17.9.1.129, 05-JUN-2066 20:08:03"
-                   "Package received.", 
+                   "Received from 17.9.1.129, 05-JUN-2066 20:08:03\n"
+                   "Package received.\n", 
                   "rw-rw-rw-", 
                   .quantity = 1,
                   .active = 1 },

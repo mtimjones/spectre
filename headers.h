@@ -51,10 +51,12 @@ int  parse_attribute( char *line, char *attribute );
 int  find_file( char *filename );
 int  find_empty_process( void );
 void create_process_from_file( int pindex, int findex, unsigned int arg );
+int  find_system( char *ip_address );
 
 // System stack API
 void init_system( int system );
 int  current_system( void );
+void set_current_system( int system );
 void push_system( int system );
 int  pop_system( void );
 

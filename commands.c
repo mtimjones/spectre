@@ -10,17 +10,19 @@ void probe_command( args *arguments );
 void ps_command( args *arguments );
 void kill_command( args *arguments );
 void exec_command( args *arguments );
+void connect_command( args *arguments );
 
 commands command_list[ MAX_COMMANDS ] = {
-   { "help",  "Get help about available system commands.", help_command },
-   { "host",  "Get info on the current host.", host_command },
-   { "ls",    "List the files on the current host.", ls_command },
-   { "cat",   "Cat the contents of a file to the screen.", cat_command },
-   { "time",  "Get the current system time.", time_command },
-   { "probe", "Probe a system to determine its type.", probe_command },
-   { "ps",    "List the processes on the current host.", ps_command },
-   { "kill",  "Kill a process on the current system.", kill_command },
-   { "exec",  "Create a process from an executable file.", exec_command },
+   { "help",    "Get help about available system commands.", help_command },
+   { "host",    "Get info on the current host.", host_command },
+   { "ls",      "List the files on the current host.", ls_command },
+   { "cat",     "Cat the contents of a file to the screen.", cat_command },
+   { "time",    "Get the current system time.", time_command },
+   { "probe",   "Probe a system to determine its type.", probe_command },
+   { "ps",      "List the processes on the current host.", ps_command },
+   { "kill",    "Kill a process on the current system.", kill_command },
+   { "exec",    "Create a process from an executable file.", exec_command },
+   { "connect", "Connect to a system using its IP address.", connect_command },
 };
 
 void help_command( args *arguments )
@@ -251,5 +253,30 @@ void exec_command( args *arguments )
 
    }
 
+   return;
+}
+
+void connect_command( args *arguments )
+{
+   char line[ MAX_MSG_SIZE ];
+   int connection;
+
+   if ( arguments->num_args < 2 ) return;
+
+   connection = find_system( arguments->args[ 1 ] );
+
+   if ( connection != -1 )
+   {
+      push_system( current_system( ) );
+      set_current_system( connection );
+
+      sprintf( line, "Connected to %s", systems[ connection ].ip_address );
+      add_message( line );
+   }
+   else
+   {
+      add_message( "Could not connect to system." );
+   }
+   
    return;
 }

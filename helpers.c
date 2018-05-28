@@ -124,3 +124,16 @@ void create_process_from_file( int pindex, int findex, unsigned int arg )
    return;
 }
 
+int find_system( char *address )
+{
+   for ( int i = 0 ; i < NUM_SYSTEMS ; i++ )
+   {
+      int size = MAX( strlen( address  ), strlen( systems[ i ].ip_address ) );
+      if ( strncmp( address, systems[ i ].ip_address, size ) == 0 )
+      {
+         return i;
+      }
+   }
+
+   return -1;
+}
