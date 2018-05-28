@@ -117,7 +117,7 @@ void time_command( args *arguments )
    char line[MAX_MSG_SIZE];
 
    sprintf( line, "%7.2f", 
-            (float)(GameTime/10 + systems[ current_system ].flags.timezone ) );
+            (float)(GameTime/100 + systems[ current_system ].flags.timezone ) );
 
    add_message( line );
 

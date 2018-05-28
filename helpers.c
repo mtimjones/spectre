@@ -47,12 +47,6 @@ int parse_attribute( char *line, char *attribute )
       }
    }
 
-   {
-      char line[80]={0};
-      sprintf( line, "%s == %d", line, value );
-      add_message( line );
-   }
-
    return value;
 }
 

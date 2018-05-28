@@ -37,8 +37,8 @@ system_t systems[ NUM_SYSTEMS ] = {
             .files[3] = {
                   "tracer",
                    "Trace hosts from this system.\n"
-                   "InstallTime: 300\n"
-                   "RunTime: 200\n",
+                   "InstallTime: 3000\n"
+                   "RunTime: 2000\n",
                   "rwxrwxrwx", 
                   .exploit = tracer_func,
                   .quantity = 1,
@@ -68,6 +68,9 @@ system_t systems[ NUM_SYSTEMS ] = {
             },
          },
       },
+      .traceable_hosts = {
+         .ip_address[0] = "10.0.0.1",
+      },
    },
 
    { .ip_address = "10.0.0.1",
@@ -82,7 +85,6 @@ system_t systems[ NUM_SYSTEMS ] = {
 };
 
 int current_system = 0;
-
 
 void system_command( args *arguments )
 {
@@ -110,7 +112,10 @@ void system_exec( char* line )
 
    parse_args( line, &arguments );
 
-   system_command( &arguments );
+   if ( arguments.num_args > 0 )
+   {
+      system_command( &arguments );
+   }
 
    return;
 }
@@ -131,7 +136,7 @@ void system_simulate( void )
             switch( processes->process[ i ].state )
             {
                case INSTALLING:
-                  processes->process[ i ].state_value -= 1;
+                  processes->process[ i ].state_value -= 10;
                   if ( processes->process[ i ].state_value <= 0 )
                   {
                      processes->process[ i ].state = RUNNING;
@@ -141,15 +146,14 @@ void system_simulate( void )
                   break;
 
                case RUNNING:
-                  processes->process[ i ].state_value -= 1;
+                  processes->process[ i ].state_value -= 10;
                   if ( processes->process[ i ].state_value <= 0 )
                   {
                      processes->process[ i ].state_value = 
                         processes->process[ i ].run_time;
                      if ( processes->process[ i ].exploit )
                      {
-                        ret = (processes->process[ i ].exploit)
-                                 ( current_system );
+                        ret = (processes->process[ i ].exploit)( );
 
                         if ( ret == 1 )
                         {
@@ -160,7 +164,7 @@ void system_simulate( void )
                   break;
 
                case SLEEPING:
-                  processes->process[ i ].state_value -= 1;
+                  processes->process[ i ].state_value -= 10;
                   if ( processes->process[ i ].state_value <= 0 )
                   {
                      processes->process[ i ].state = RUNNING;

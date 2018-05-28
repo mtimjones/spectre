@@ -8,7 +8,7 @@
 #define MAX_HOST_INFO_SIZE  50
 #define MAX_TRACEABLE_HOSTS  5
 
-typedef int (*exploit_func)( int system );
+typedef int (*exploit_func)( void );
 
 typedef struct
 {
@@ -76,13 +76,14 @@ typedef struct
 
 typedef struct
 {
-   char         ip_address[ MAX_IP_ADRS_SIZE ];
-   char         hostinfo[ MAX_HOST_INFO_SIZE ];
-   filesystem_t filesystem;
-   processes_t  processes;
-//   unsigned int delay;
+   char              ip_address[ MAX_IP_ADRS_SIZE ];
+   char              hostinfo[ MAX_HOST_INFO_SIZE ];
+   filesystem_t      filesystem;
+   processes_t       processes;
+   traceable_hosts_t traceable_hosts;
+//   unsigned int  delay;
 //   sim_func_t   ServerSimulationFunction;
-   system_flags flags;
+   system_flags      flags;
 } system_t;
 
 #define NUM_SYSTEMS   2
