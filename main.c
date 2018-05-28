@@ -16,6 +16,8 @@ int main( int argc, char *argv[] )
    add_message( "Connected to 18.75.0.9" );
    add_message( "Type help for more information." );
 
+   init_system( 0 );
+
    win_update( );
 
    while ( GameRunning )

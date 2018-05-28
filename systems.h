@@ -89,3 +89,13 @@ typedef struct
 #define NUM_SYSTEMS   2
 
 extern system_t systems[];
+
+#define MAX_SYS_STACK_DEPTH   100
+
+typedef struct
+{
+   int entry[ MAX_SYS_STACK_DEPTH ];
+   int top_index;
+} system_stack_t;
+
+

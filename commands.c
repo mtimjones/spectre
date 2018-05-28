@@ -39,8 +39,8 @@ void host_command( args *arguments )
 {
    char line[MAX_MSG_SIZE];
 
-   sprintf( line, "%s (%s)", systems[ current_system ].hostinfo, 
-               systems[ current_system ].ip_address );
+   sprintf( line, "%s (%s)", systems[ current_system( ) ].hostinfo, 
+               systems[ current_system( ) ].ip_address );
 
    add_message( line );
 
@@ -53,14 +53,14 @@ void ls_command( args *arguments )
 
    for ( int i = 0 ; i < MAX_FILES ; i++ )
    {
-      if ( systems[ current_system].filesystem.files[i].active )
+      if ( systems[ current_system( )].filesystem.files[i].active )
       {
          sprintf( line, "%s %5u %-17s (%d)", 
-                  systems[ current_system ].filesystem.files[i].attributes,
+                  systems[ current_system( ) ].filesystem.files[i].attributes,
                   (unsigned int)strlen( 
-                     systems[ current_system ].filesystem.files[i].contents),
-                  systems[ current_system ].filesystem.files[i].filename,
-                  systems[ current_system ].filesystem.files[i].quantity );
+                     systems[ current_system( ) ].filesystem.files[i].contents),
+                  systems[ current_system( ) ].filesystem.files[i].filename,
+                  systems[ current_system( ) ].filesystem.files[i].quantity );
 
          add_message( line );
       }
@@ -73,7 +73,7 @@ void cat_file( int file_index )
    char *file;
    int wrindex = 0, len;
 
-   file = systems[ current_system ].
+   file = systems[ current_system( ) ].
                         filesystem.files[ file_index ].contents;
 
    len = strlen( file );
@@ -117,7 +117,7 @@ void time_command( args *arguments )
    char line[MAX_MSG_SIZE];
 
    sprintf( line, "%7.2f", 
-            (float)(GameTime/100 + systems[ current_system ].flags.timezone ) );
+            (float)(GameTime/100 + systems[ current_system( ) ].flags.timezone ) );
 
    add_message( line );
 
@@ -169,7 +169,7 @@ void ps_command( args *arguments )
    char line[ MAX_MSG_SIZE ];
    char *state_names[] = { "INVALID", "INSTALLING", "RUNNING", 
                            "SLEEPING", "ZOMBIE" };
-   processes_t *processes = &systems[ current_system ].processes;
+   processes_t *processes = &systems[ current_system( ) ].processes;
 
    add_message( "PID  NAME              STATE" );
 
@@ -190,7 +190,7 @@ void ps_command( args *arguments )
 void kill_command( args *arguments )
 {
    char line[ MAX_MSG_SIZE ];
-   processes_t *processes = &systems[ current_system ].processes;
+   processes_t *processes = &systems[ current_system( ) ].processes;
 
    if ( arguments->num_args < 2 ) return;
 

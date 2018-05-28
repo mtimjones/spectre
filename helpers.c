@@ -54,12 +54,12 @@ int find_file( char *filename )
 {
    for ( int i = 0 ; i < MAX_FILES ; i++ )
    {
-      if ( systems[ current_system ].filesystem.files[i].active )
+      if ( systems[ current_system( ) ].filesystem.files[i].active )
       {
-         int size = MAX( strlen( systems[ current_system ].
+         int size = MAX( strlen( systems[ current_system( ) ].
                            filesystem.files[i].filename ), strlen( filename ) );
 
-         if ( strncmp( systems[ current_system ].filesystem.files[i].filename,
+         if ( strncmp( systems[ current_system( ) ].filesystem.files[i].filename,
                        filename, size ) == 0 )
          {
             return i;
@@ -72,7 +72,7 @@ int find_file( char *filename )
 
 int find_empty_process( void )
 {
-   processes_t *processes = &systems[ current_system ].processes;
+   processes_t *processes = &systems[ current_system( ) ].processes;
 
    for ( int i = 0 ; i < MAX_PROCESSES ; i++ )
    {
@@ -88,8 +88,8 @@ int find_empty_process( void )
 
 void create_process_from_file( int pindex, int findex, unsigned int arg )
 {
-   processes_t *processes = &systems[ current_system ].processes;
-   filesystem_t *filesystem = &systems[ current_system ].filesystem;
+   processes_t *processes = &systems[ current_system( ) ].processes;
+   filesystem_t *filesystem = &systems[ current_system( ) ].filesystem;
    char line[ MAX_MSG_SIZE ];
 
    if ( --filesystem->files[findex ].quantity == 0 )

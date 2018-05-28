@@ -114,7 +114,7 @@ system_t systems[ NUM_SYSTEMS ] = {
                .killable = 0,
             },
          },
-         .process[0] = {
+         .process[1] = {
             .name = "AirNet Link",
             .pid = 9375,
             .strength = 15,
@@ -125,9 +125,31 @@ system_t systems[ NUM_SYSTEMS ] = {
                .killable = 0,
             },
          },
-         .process[0] = {
+         .process[2] = {
             .name = "Auto Pilot",
             .pid = 536,
+            .strength = 15,
+            .argument = 0,
+            .state = RUNNING,
+            .flags = {
+               .active = 1,
+               .killable = 1,
+            },
+         },
+         .process[3] = {
+            .name = "Vision System",
+            .pid = 3486,
+            .strength = 15,
+            .argument = 0,
+            .state = RUNNING,
+            .flags = {
+               .active = 1,
+               .killable = 1,
+            },
+         },
+         .process[4] = {
+            .name = "Diags System",
+            .pid = 9315,
             .strength = 15,
             .argument = 0,
             .state = RUNNING,
@@ -141,7 +163,6 @@ system_t systems[ NUM_SYSTEMS ] = {
    },
 };
 
-int current_system = 0;
 
 void system_command( args *arguments )
 {
@@ -180,7 +201,7 @@ void system_exec( char* line )
 
 void system_simulate( void )
 {
-   processes_t *processes = &systems[ current_system ].processes;
+   processes_t *processes = &systems[ current_system( ) ].processes;
    int ret;
 
    for ( int i = 0 ; i < MAX_PROCESSES ; i++ )

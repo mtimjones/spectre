@@ -44,7 +44,6 @@ char *get_user_input_line( void );
 // Systems API
 void system_simulate( void );
 void system_exec( char *line );
-extern int current_system;
 
 // Helpers API
 void parse_args( char *line, args *arguments );
@@ -52,6 +51,12 @@ int  parse_attribute( char *line, char *attribute );
 int  find_file( char *filename );
 int  find_empty_process( void );
 void create_process_from_file( int pindex, int findex, unsigned int arg );
+
+// System stack API
+void init_system( int system );
+int  current_system( void );
+void push_system( int system );
+int  pop_system( void );
 
 // RNG Functions 
 #define getSRand()      ( ( float ) rand( ) / ( float ) RAND_MAX )
