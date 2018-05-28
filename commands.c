@@ -11,6 +11,7 @@ void ps_command( args *arguments );
 void kill_command( args *arguments );
 void exec_command( args *arguments );
 void connect_command( args *arguments );
+void exit_command( args *arguments );
 
 commands command_list[ MAX_COMMANDS ] = {
    { "help",    "Get help about available system commands.", help_command },
@@ -23,6 +24,7 @@ commands command_list[ MAX_COMMANDS ] = {
    { "kill",    "Kill a process on the current system.", kill_command },
    { "exec",    "Create a process from an executable file.", exec_command },
    { "connect", "Connect to a system using its IP address.", connect_command },
+   { "exit",    "Exit the current system.", exit_command },
 };
 
 void help_command( args *arguments )
@@ -278,5 +280,20 @@ void connect_command( args *arguments )
       add_message( "Could not connect to system." );
    }
    
+   return;
+}
+
+void exit_command( args *arguments )
+{
+   if ( current_system( ) == 0 )
+   {
+      add_message( "Cannot exit." );
+   }
+   else
+   {
+      set_current_system( pop_system( ) );
+      add_message( "Connection terminated." );
+   }
+
    return;
 }
