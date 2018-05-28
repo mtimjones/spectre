@@ -36,6 +36,8 @@ typedef struct
    unsigned int killable:1;
 } process_flags;
 
+typedef void (*exploit_func)( int system );
+
 typedef struct
 {
 //   file_t*        file;
@@ -48,6 +50,7 @@ typedef struct
    state_t        state;
    unsigned int   state_value;
    process_flags  flags;
+   exploit_func   exploit;
 } process_t;
 
 typedef struct

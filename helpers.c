@@ -108,6 +108,9 @@ void create_process_from_file( int pindex, int findex, unsigned int arg )
    processes->process[ pindex ].run_time =
       parse_attribute( filesystem->files[ findex ].contents, "RunTime:" );
    processes->process[ pindex ].argument = arg; 
+   strcpy( processes->process[ pindex ].name, 
+            filesystem->files[ findex ].filename );
+   processes->process[ pindex ].pid = getRand( 10000 );
 
    // Setup the process state
    processes->process[ pindex ].state = INSTALLING;

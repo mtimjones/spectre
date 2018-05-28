@@ -225,6 +225,9 @@ void kill_command( args *arguments )
 void exec_command( args *arguments )
 {
    int  file_index, process_index;
+   unsigned int arg = 0; 
+
+   if ( arguments->num_args < 2 ) return;
 
    file_index = find_file( arguments->args[ 1 ] );
 
@@ -234,9 +237,12 @@ void exec_command( args *arguments )
 
       if ( process_index != -1 )
       {
+         if ( arguments->num_args == 3 )
+         {
+            arg = ( unsigned int ) atoi( arguments->args[ 2 ] );
+         }
          create_process_from_file( 
-            process_index, file_index, 
-            ( unsigned int )atoi( arguments->args[ 2 ] ) );
+            process_index, file_index, arg );
       }
       else
       {

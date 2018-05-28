@@ -52,5 +52,8 @@ int  find_file( char *filename );
 int  find_empty_process( void );
 void create_process_from_file( int pindex, int findex, unsigned int arg );
 
+// RNG Functions 
+#define getSRand()      ( ( float ) rand( ) / ( float ) RAND_MAX )
+#define getRand( x )    ( int ) ( ( x ) * getSRand( ) )
 
 

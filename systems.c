@@ -117,12 +117,17 @@ void system_exec( char* line )
 
 void system_simulate( void )
 {
-   static int ticks = 500;
+   processes_t *processes = &systems[ current_system ].processes;
 
-   if ( --ticks == 0 )
+   for ( int i = 0 ; i < MAX_PROCESSES ; i++ )
    {
-      add_message("Ticks..." );
-      ticks = 500;
+      if ( processes->process[ i ].flags.active == 1 )
+      {
+         
+
+
+      }
+
    }
 
    return;
