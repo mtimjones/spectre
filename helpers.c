@@ -90,6 +90,7 @@ void create_process_from_file( int pindex, int findex, unsigned int arg )
 {
    processes_t *processes = &systems[ current_system ].processes;
    filesystem_t *filesystem = &systems[ current_system ].filesystem;
+   char line[ MAX_MSG_SIZE ];
 
    if ( --filesystem->files[findex ].quantity == 0 )
    {
@@ -114,6 +115,11 @@ void create_process_from_file( int pindex, int findex, unsigned int arg )
 
    // Activate the process.
    processes->process[ pindex ].flags.active = 1;
+
+   sprintf( line, "[%d] %s started.",
+            processes->process[ pindex ].pid, 
+            processes->process[ pindex ].name );
+   add_message( line );
 
    return;
 }

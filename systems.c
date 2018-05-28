@@ -3,7 +3,7 @@
 
 system_t systems[ NUM_SYSTEMS ] = { 
    { 
-      .ip_address = "127.0.0.1",
+      .ip_address = "18.75.0.9",
       .hostinfo = "Neural Implant - Home Edition V4.5663.4A",
       .flags = {
          .timezone = 0,
@@ -11,38 +11,38 @@ system_t systems[ NUM_SYSTEMS ] = {
          .discoverable = 1,
       },
       .filesystem = { 
-            .files[0] = 
-               // 1234567890123456789012345678901234567890123456789012345678
-               {  "README", 
-                   "CyberOS README\n"
-                   "Type help for command information.\n"
-                   "WARNING: you are required to follow all laws under the\n"
-                   "IT ACT of 2064.  Crimes against people, property, or the\n"
-                   "Government are punishable by death.\n",
-                  .attributes = "rw-r--r--", 
-                  .quantity = 1,
-                  .active = 1 },
-            .files[1] = { 
-                  "bitcoin", 
-                   "100\n", 
-                  "rw-rw-rw-", 
-                  .quantity = 1,
-                  .active = 1 },
-            .files[2] = { 
-                  "tasks", 
-                   "quest information\n", 
-                  "rw-r--r--", 
-                  .quantity = 1,
-                  .active = 1 },
-            .files[3] = {
-                  "tracer",
-                   "Trace hosts from this system.\n"
-                   "InstallTime: 3000\n"
-                   "RunTime: 2000\n",
-                  "rwxrwxrwx", 
-                  .exploit = tracer_func,
-                  .quantity = 1,
-                  .active = 1 },
+         .files[0] = 
+            // 1234567890123456789012345678901234567890123456789012345678
+            {  "README", 
+                "CyberOS README\n"
+                "Type help for command information.\n"
+                "WARNING: you are required to follow all laws under the\n"
+                "IT ACT of 2064.  Crimes against people, property, or the\n"
+                "Government are punishable by death.\n",
+               .attributes = "rw-r--r--", 
+               .quantity = 1,
+               .active = 1 },
+         .files[1] = { 
+               "bitcoin", 
+                "100\n", 
+               "rw-rw-rw-", 
+               .quantity = 1,
+               .active = 1 },
+         .files[2] = { 
+               "tasks", 
+                "quest information\n", 
+               "rw-r--r--", 
+               .quantity = 1,
+               .active = 1 },
+         .files[3] = {
+               "tracer",
+                "Trace hosts from this system.\n"
+                "InstallTime: 3000\n"
+                "RunTime: 2000\n",
+               "rwxrwxrwx", 
+               .exploit = tracer_func,
+               .quantity = 1,
+               .active = 1 },
       },
       .processes = {
          .process[0] = {
@@ -57,9 +57,78 @@ system_t systems[ NUM_SYSTEMS ] = {
             },
          },
          .process[1] = {
-            .name = "Sentry",
+            .name = "CortexLink",
             .pid = 6168,
             .strength = 20,
+            .argument = 0,
+            .state = RUNNING,
+            .flags = {
+               .active = 1,
+               .killable = 0,
+            },
+         },
+      },
+      .traceable_hosts = {
+         .ip_address[0] = "151.75.9.192",
+      },
+   },
+
+   {
+      .ip_address = "151.75.9.192",
+      .hostinfo = "Nissan Telematics System, V2.3108.AX",
+      .flags = {
+         .timezone = 300,
+         .probeable = 1,
+         .discoverable = 1,
+      },
+      .filesystem = {
+            .files[0] = { 
+                  "bitcoin", 
+                   "200", 
+                  "rw-rw-rw-", 
+                  .quantity = 1,
+                  .active = 1 },
+            .files[1] = { 
+                  "mapinfo", 
+                   "World street map", 
+                  "rw-rw-rw-", 
+                  .quantity = 1,
+                  .active = 1 },
+            .files[2] = { 
+                  "messages", 
+                   "Received from 17.9.1.129, 05-JUN-2066 20:08:03"
+                   "Package received.", 
+                  "rw-rw-rw-", 
+                  .quantity = 1,
+                  .active = 1 },
+      },
+      .processes = {
+         .process[0] = {
+            .name = "Telematics Server",
+            .pid = 3395,
+            .strength = 15,
+            .argument = 0,
+            .state = RUNNING,
+            .flags = {
+               .active = 1,
+               .killable = 0,
+            },
+         },
+         .process[0] = {
+            .name = "AirNet Link",
+            .pid = 9375,
+            .strength = 15,
+            .argument = 0,
+            .state = RUNNING,
+            .flags = {
+               .active = 1,
+               .killable = 0,
+            },
+         },
+         .process[0] = {
+            .name = "Auto Pilot",
+            .pid = 536,
+            .strength = 15,
             .argument = 0,
             .state = RUNNING,
             .flags = {
@@ -68,19 +137,7 @@ system_t systems[ NUM_SYSTEMS ] = {
             },
          },
       },
-      .traceable_hosts = {
-         .ip_address[0] = "10.0.0.1",
-      },
-   },
-
-   { .ip_address = "10.0.0.1",
-     .hostinfo = "Test host info",
-     .filesystem = {},
-      .flags = {
-         .timezone = 300,
-         .probeable = 0,
-         .discoverable = 0,
-      },
+      .traceable_hosts = {},
    },
 };
 
