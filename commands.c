@@ -12,6 +12,7 @@ void kill_command( args *arguments );
 void exec_command( args *arguments );
 void connect_command( args *arguments );
 void exit_command( args *arguments );
+void rls_command( args *arguments );
 
 commands command_list[ MAX_COMMANDS ] = {
    { "help",    "Get help about available system commands.", help_command },
@@ -24,6 +25,7 @@ commands command_list[ MAX_COMMANDS ] = {
    { "kill",    "Kill a process on the current system.", kill_command },
    { "exec",    "Create a process from an executable file.", exec_command },
    { "connect", "Connect to a system using its IP address.", connect_command },
+   { "rls",     "Remote ls (list files on the home system).", rls_command },
    { "exit",    "Exit the current system.", exit_command },
 };
 
@@ -297,3 +299,27 @@ void exit_command( args *arguments )
 
    return;
 }
+
+void rls_command( args *arguments )
+{
+   char line[MAX_MSG_SIZE];
+
+   for ( int i = 0 ; i < MAX_FILES ; i++ )
+   {
+      if ( systems[ 0 ].filesystem.files[ i ].active )
+      {
+         sprintf( line, "%s: %s %5u %-17s (%d)",
+                  systems[ 0 ].ip_address,
+                  systems[ 0 ].filesystem.files[i].attributes,
+                  (unsigned int)strlen(
+                     systems[ 0 ].filesystem.files[i].contents),
+                  systems[ 0 ].filesystem.files[i].filename,
+                  systems[ 0 ].filesystem.files[i].quantity );
+
+         add_message( line );
+      }
+   }
+
+   return;
+}
+
