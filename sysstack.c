@@ -15,6 +15,11 @@ int current_system( void )
    return cur_system;
 }
 
+int system_stack_empty( void )
+{
+   return ( system_stack.top_index == 0 );
+}
+
 void set_current_system( int system )
 {
    cur_system = system;

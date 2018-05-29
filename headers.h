@@ -56,6 +56,7 @@ int  find_system( char *ip_address );
 // System stack API
 void init_system( int system );
 int  current_system( void );
+int  system_stack_empty( void );
 void set_current_system( int system );
 void push_system( int system );
 int  pop_system( void );

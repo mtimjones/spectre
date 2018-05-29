@@ -84,7 +84,7 @@ system_t systems[ NUM_SYSTEMS ] = {
       .filesystem = {
             .files[0] = { 
                   "bitcoin", 
-                   "200\n", 
+                   "50\n", 
                   "rw-rw-rw-", 
                   .quantity = 1,
                   .active = 1 },
@@ -203,6 +203,7 @@ void system_exec( char* line )
 void system_simulate( void )
 {
    processes_t *processes = &systems[ current_system( ) ].processes;
+   char line[ MAX_MSG_SIZE ];
    int ret;
 
    for ( int i = 0 ; i < MAX_PROCESSES ; i++ )
@@ -215,7 +216,7 @@ void system_simulate( void )
             switch( processes->process[ i ].state )
             {
                case INSTALLING:
-                  processes->process[ i ].state_value -= 10;
+                  processes->process[ i ].state_value -= MS_PER_FRAME;
                   if ( processes->process[ i ].state_value <= 0 )
                   {
                      processes->process[ i ].state = RUNNING;
@@ -225,7 +226,7 @@ void system_simulate( void )
                   break;
 
                case RUNNING:
-                  processes->process[ i ].state_value -= 10;
+                  processes->process[ i ].state_value -= MS_PER_FRAME;
                   if ( processes->process[ i ].state_value <= 0 )
                   {
                      processes->process[ i ].state_value = 
@@ -236,6 +237,10 @@ void system_simulate( void )
 
                         if ( ret == 1 )
                         {
+                           sprintf( line, "[%d]+ Done   %-17s",
+                                    processes->process[ i ].pid,
+                                    processes->process[ i ].name );
+                           add_message( line );
                            processes->process[ i ].flags.active = 0;
                         }
                      }
@@ -243,7 +248,7 @@ void system_simulate( void )
                   break;
 
                case SLEEPING:
-                  processes->process[ i ].state_value -= 10;
+                  processes->process[ i ].state_value -= MS_PER_FRAME;
                   if ( processes->process[ i ].state_value <= 0 )
                   {
                      processes->process[ i ].state = RUNNING;

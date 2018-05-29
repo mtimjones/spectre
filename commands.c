@@ -285,7 +285,7 @@ void connect_command( args *arguments )
 
 void exit_command( args *arguments )
 {
-   if ( current_system( ) == 0 )
+   if ( system_stack_empty( ) )
    {
       add_message( "Cannot exit." );
    }
