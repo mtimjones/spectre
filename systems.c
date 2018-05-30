@@ -43,6 +43,16 @@ system_t systems[ NUM_SYSTEMS ] = {
                .exploit = tracer_func,
                .quantity = 1,
                .active = 1 },
+         .files[4] = {
+               "sleeper",
+                "Put a named process (pid) to sleep for some time.\n"
+                "This can be used to passively manipulate a system.\n"
+                "InstallTime: 2000\n"
+                "RunTime: 6000\n",
+               "rwxrwxrwx", 
+               .exploit = sleeper_func,
+               .quantity = 1,
+               .active = 1 },
       },
       .processes = {
          .process[0] = {
@@ -159,6 +169,17 @@ system_t systems[ NUM_SYSTEMS ] = {
                .killable = 1,
             },
          },
+         .process[5] = {
+            .name = "sentry",
+            .pid = 1847,
+            .strength = 15,
+            .argument = 0,
+            .state = RUNNING,
+            .flags = {
+               .active = 1,
+               .killable = 0,
+            },
+         },
       },
       .traceable_hosts = {},
    },
@@ -217,11 +238,17 @@ void system_simulate( void )
             {
                case INSTALLING:
                   processes->process[ i ].state_value -= MS_PER_FRAME;
+
                   if ( processes->process[ i ].state_value <= 0 )
                   {
                      processes->process[ i ].state = RUNNING;
                      processes->process[ i ].state_value =
                         processes->process[ i ].run_time;
+
+                     if ( processes->process[ i ].exploit )
+                     {
+                        ret = (processes->process[ i ].exploit)( RUNNING );
+                     }
                   }
                   break;
 
@@ -229,11 +256,12 @@ void system_simulate( void )
                   processes->process[ i ].state_value -= MS_PER_FRAME;
                   if ( processes->process[ i ].state_value <= 0 )
                   {
-                     processes->process[ i ].state_value = 
-                        processes->process[ i ].run_time;
+//                     processes->process[ i ].state_value = 
+//                        processes->process[ i ].run_time;
+
                      if ( processes->process[ i ].exploit )
                      {
-                        ret = (processes->process[ i ].exploit)( );
+                        ret = (processes->process[ i ].exploit)( EXITING );
 
                         if ( ret == 1 )
                         {

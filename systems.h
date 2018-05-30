@@ -8,7 +8,16 @@
 #define MAX_HOST_INFO_SIZE  50
 #define MAX_TRACEABLE_HOSTS  5
 
-typedef int (*exploit_func)( void );
+typedef enum {
+   INVALID,
+   INSTALLING,
+   RUNNING,
+   SLEEPING,
+   EXITING,
+   ZOMBIE,
+} state_t;
+
+typedef int (*exploit_func)( state_t state );
 
 typedef struct
 {
@@ -24,14 +33,6 @@ typedef struct
 {
    file_t files[ MAX_FILES ];
 } filesystem_t;
-
-typedef enum {
-   INVALID,
-   INSTALLING,
-   RUNNING,
-   SLEEPING,
-   ZOMBIE,
-} state_t;
 
 typedef struct
 {
