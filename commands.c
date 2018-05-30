@@ -13,12 +13,14 @@ void exec_command( args *arguments );
 void connect_command( args *arguments );
 void exit_command( args *arguments );
 void rls_command( args *arguments );
+void rm_command( args *arguments );
 
 commands command_list[ MAX_COMMANDS ] = {
    { "help",    "Get help about available system commands.", help_command },
    { "host",    "Get info on the current host.", host_command },
    { "ls",      "List the files on the current host.", ls_command },
    { "cat",     "Cat the contents of a file to the screen.", cat_command },
+   { "rm",      "Remove a file from the local filesystem.", rm_command },
    { "time",    "Get the current system time.", time_command },
    { "probe",   "Probe a system to determine its type.", probe_command },
    { "ps",      "List the processes on the current host.", ps_command },
@@ -114,6 +116,27 @@ void cat_command( args *arguments )
    }
 
    add_message( "File not found." );
+
+   return;
+}
+
+void rm_command( args *arguments )
+{
+   int file_index;
+
+   if ( arguments->num_args < 2 ) return;
+
+   file_index = find_file( arguments->args[ 1 ] );
+
+   if ( file_index != -1 )
+   {
+      systems[ current_system( ) ].filesystem.files[ file_index ].active = 0;
+      add_message( "File removed." );
+   }
+   else
+   {
+      add_message( "File not found." );
+   }
 
    return;
 }

@@ -50,7 +50,7 @@ system_t systems[ NUM_SYSTEMS ] = {
                 "This can be used to passively manipulate a system.\n"
                 "InstallTicks: 3000\n"
                 "RunTicks: 1\n"
-                "RunPeriod: 6000\n"
+                "RunPeriod: 6000\n",
                "rwxrwxrwx", 
                .exploit = sleeper_func,
                .quantity = 1,
