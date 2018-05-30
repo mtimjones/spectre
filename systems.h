@@ -45,8 +45,9 @@ typedef struct
 //   file_t*        file;
    char           name[ MAX_FILE_NAME ];
    unsigned short pid;
-   unsigned int   install_time;
-   unsigned int   run_time;
+   unsigned int   install_ticks;
+   unsigned int   run_period;
+   unsigned int   run_ticks;
    unsigned int   strength;
    unsigned int   argument;
    state_t        state;

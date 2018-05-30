@@ -37,8 +37,9 @@ system_t systems[ NUM_SYSTEMS ] = {
          .files[3] = {
                "tracer",
                 "Trace hosts from this system.\n"
-                "InstallTime: 3000\n"
-                "RunTime: 2000\n",
+                "InstallTicks: 3000\n"
+                "RunPeriod: 2000\n"
+                "RunTicks: 3\n",
                "rwxrwxrwx", 
                .exploit = tracer_func,
                .quantity = 1,
@@ -47,8 +48,9 @@ system_t systems[ NUM_SYSTEMS ] = {
                "sleeper",
                 "Put a named process (pid) to sleep for some time.\n"
                 "This can be used to passively manipulate a system.\n"
-                "InstallTime: 2000\n"
-                "RunTime: 6000\n",
+                "InstallTicks: 3000\n"
+                "RunTicks: 1\n"
+                "RunPeriod: 6000\n"
                "rwxrwxrwx", 
                .exploit = sleeper_func,
                .quantity = 1,
@@ -58,7 +60,9 @@ system_t systems[ NUM_SYSTEMS ] = {
          .process[0] = {
             .name = "CyberOS uKernel",
             .pid = 1335,
-            .strength = 15,
+            .install_ticks = 0,
+            .run_period = 0,
+            .run_ticks = 0,
             .argument = 0,
             .state = RUNNING,
             .flags = {
@@ -69,7 +73,9 @@ system_t systems[ NUM_SYSTEMS ] = {
          .process[1] = {
             .name = "CortexLink",
             .pid = 6168,
-            .strength = 20,
+            .install_ticks = 0,
+            .run_period = 0,
+            .run_ticks = 0,
             .argument = 0,
             .state = RUNNING,
             .flags = {
@@ -117,7 +123,9 @@ system_t systems[ NUM_SYSTEMS ] = {
          .process[0] = {
             .name = "Telematics Server",
             .pid = 3395,
-            .strength = 15,
+            .install_ticks = 0,
+            .run_period = 0,
+            .run_ticks = 0,
             .argument = 0,
             .state = RUNNING,
             .flags = {
@@ -128,7 +136,9 @@ system_t systems[ NUM_SYSTEMS ] = {
          .process[1] = {
             .name = "AirNet Link",
             .pid = 9375,
-            .strength = 15,
+            .install_ticks = 0,
+            .run_period = 0,
+            .run_ticks = 0,
             .argument = 0,
             .state = RUNNING,
             .flags = {
@@ -139,7 +149,9 @@ system_t systems[ NUM_SYSTEMS ] = {
          .process[2] = {
             .name = "Auto Pilot",
             .pid = 536,
-            .strength = 15,
+            .install_ticks = 0,
+            .run_period = 0,
+            .run_ticks = 0,
             .argument = 0,
             .state = RUNNING,
             .flags = {
@@ -150,7 +162,9 @@ system_t systems[ NUM_SYSTEMS ] = {
          .process[3] = {
             .name = "Vision System",
             .pid = 3486,
-            .strength = 15,
+            .install_ticks = 0,
+            .run_period = 0,
+            .run_ticks = 0,
             .argument = 0,
             .state = RUNNING,
             .flags = {
@@ -161,18 +175,22 @@ system_t systems[ NUM_SYSTEMS ] = {
          .process[4] = {
             .name = "Diags System",
             .pid = 9315,
-            .strength = 15,
+            .install_ticks = 0,
+            .run_period = 0,
+            .run_ticks = 0,
             .argument = 0,
             .state = RUNNING,
             .flags = {
                .active = 1,
-               .killable = 1,
+               .killable = 0,
             },
          },
          .process[5] = {
             .name = "sentry",
             .pid = 1847,
-            .strength = 15,
+            .install_ticks = 0,
+            .run_period = 0,
+            .run_ticks = 200, // every 2 seconds
             .argument = 0,
             .state = RUNNING,
             .flags = {
@@ -227,6 +245,9 @@ void system_simulate( void )
    char line[ MAX_MSG_SIZE ];
    int ret;
 
+   // Only allow this to execute every 500ms.
+   // Each state gets called for active processes, every 500ms
+
    for ( int i = 0 ; i < MAX_PROCESSES ; i++ )
    {
       if ( processes->process[ i ].flags.active == 1 )
@@ -243,7 +264,7 @@ void system_simulate( void )
                   {
                      processes->process[ i ].state = RUNNING;
                      processes->process[ i ].state_value =
-                        processes->process[ i ].run_time;
+                        processes->process[ i ].run_period;
 
                      if ( processes->process[ i ].exploit )
                      {
@@ -256,20 +277,31 @@ void system_simulate( void )
                   processes->process[ i ].state_value -= MS_PER_FRAME;
                   if ( processes->process[ i ].state_value <= 0 )
                   {
-//                     processes->process[ i ].state_value = 
-//                        processes->process[ i ].run_time;
+                     processes->process[ i ].state_value = 
+                        processes->process[ i ].run_period;
 
                      if ( processes->process[ i ].exploit )
                      {
-                        ret = (processes->process[ i ].exploit)( EXITING );
-
-                        if ( ret == 1 )
+                        if ( processes->process[ i ].run_ticks )
                         {
-                           sprintf( line, "[%d]+ Done   %-17s",
-                                    processes->process[ i ].pid,
-                                    processes->process[ i ].name );
-                           add_message( line );
-                           processes->process[ i ].flags.active = 0;
+                           if ( --processes->process[ i ].run_ticks == 0 )
+                           {
+                              ret = (processes->process[ i ].exploit)( EXITING );
+                           }
+                           else
+                           {
+                              ret = (processes->process[ i ].exploit)( RUNNING );
+                           }
+
+                           if ( ret == 1 )
+                           {
+                              sprintf( line, "[%d]+ Done   %-17s",
+                                       processes->process[ i ].pid,
+                                       processes->process[ i ].name );
+                              add_message( line );
+                              processes->process[ i ].flags.active = 0;
+                           }
+
                         }
                      }
                   }
@@ -281,7 +313,7 @@ void system_simulate( void )
                   {
                      processes->process[ i ].state = RUNNING;
                      processes->process[ i ].state_value =
-                        processes->process[ i ].run_time;
+                        processes->process[ i ].run_period;
                   }
                   break;
 

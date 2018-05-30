@@ -98,10 +98,12 @@ void create_process_from_file( int pindex, int findex, unsigned int arg )
    }
 
    // Load the process with file info.
-   processes->process[ pindex ].install_time =
-      parse_attribute( filesystem->files[ findex ].contents, "InstallTime:" );
-   processes->process[ pindex ].run_time =
-      parse_attribute( filesystem->files[ findex ].contents, "RunTime:" );
+   processes->process[ pindex ].install_ticks =
+      parse_attribute( filesystem->files[ findex ].contents, "InstallTicks:" );
+   processes->process[ pindex ].run_period =
+      parse_attribute( filesystem->files[ findex ].contents, "RunPeriod:" );
+   processes->process[ pindex ].run_ticks =
+      parse_attribute( filesystem->files[ findex ].contents, "RunTicks:" );
    processes->process[ pindex ].argument = arg; 
    strcpy( processes->process[ pindex ].name, 
             filesystem->files[ findex ].filename );
@@ -111,7 +113,7 @@ void create_process_from_file( int pindex, int findex, unsigned int arg )
    // Setup the process state
    processes->process[ pindex ].state = INSTALLING;
    processes->process[ pindex ].state_value = 
-      processes->process[ pindex ].install_time;
+      processes->process[ pindex ].install_ticks;
 
    // Activate the process.
    processes->process[ pindex ].flags.active = 1;
