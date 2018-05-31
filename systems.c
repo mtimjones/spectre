@@ -289,7 +289,7 @@ void system_simulate( void )
 
                      if ( processes->process[ i ].exploit )
                      {
-                        ret = (processes->process[ i ].exploit)( RUNNING );
+                        ret = (processes->process[ i ].exploit)( INSTALLING );
                      }
                   }
                   break;
@@ -305,13 +305,11 @@ void system_simulate( void )
                      {
                         if ( processes->process[ i ].run_ticks )
                         {
+
+                           ret = (processes->process[ i ].exploit)( RUNNING );
                            if ( --processes->process[ i ].run_ticks == 0 )
                            {
                               ret = (processes->process[ i ].exploit)( EXITING );
-                           }
-                           else
-                           {
-                              ret = (processes->process[ i ].exploit)( RUNNING );
                            }
 
                            if ( ret == 1 )
