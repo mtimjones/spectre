@@ -50,20 +50,33 @@ int parse_attribute( char *line, char *attribute )
    return value;
 }
 
-int find_file( char *filename )
+int find_file( int system, char *filename )
 {
    for ( int i = 0 ; i < MAX_FILES ; i++ )
    {
-      if ( systems[ current_system( ) ].filesystem.files[i].active )
+      if ( systems[ system ].filesystem.files[i].active )
       {
-         int size = MAX( strlen( systems[ current_system( ) ].
+         int size = MAX( strlen( systems[ system ].
                            filesystem.files[i].filename ), strlen( filename ) );
 
-         if ( strncmp( systems[ current_system( ) ].filesystem.files[i].filename,
+         if ( strncmp( systems[ system ].filesystem.files[i].filename,
                        filename, size ) == 0 )
          {
             return i;
          }
+      }
+   }
+
+   return -1;
+}
+
+int find_empty_file( int system )
+{
+   for ( int i = 0 ; i < MAX_FILES ; i++ )
+   {
+      if ( systems[ system ].filesystem.files[i].active == 0 )
+      {
+         return i;
       }
    }
 

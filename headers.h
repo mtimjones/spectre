@@ -48,7 +48,8 @@ void system_exec( char *line );
 // Helpers API
 void parse_args( char *line, args *arguments );
 int  parse_attribute( char *line, char *attribute );
-int  find_file( char *filename );
+int  find_file( int system, char *filename );
+int  find_empty_file( int system );
 int  find_empty_process( void );
 void create_process_from_file( int pindex, int findex, unsigned int arg );
 int  find_system( char *ip_address );
