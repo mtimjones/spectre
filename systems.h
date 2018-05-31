@@ -17,7 +17,7 @@ typedef enum {
    ZOMBIE,
 } state_t;
 
-typedef int (*exploit_func)( state_t state );
+typedef int (*exploit_func)( int process_index, state_t state );
 
 typedef struct
 {

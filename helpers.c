@@ -83,6 +83,22 @@ int find_empty_file( int system )
    return -1;
 }
 
+int find_process( unsigned short pid )
+{
+   processes_t *processes = &systems[ current_system( ) ].processes;
+
+   for ( int i = 0 ; i < MAX_PROCESSES ; i++ )
+   {
+      if ( ( processes->process[ i ].flags.active == 1 ) && 
+          ( processes->process[ i ].pid == pid ) )
+      {
+         return i;
+      }
+   }
+
+   return -1;
+}
+
 int find_empty_process( void )
 {
    processes_t *processes = &systems[ current_system( ) ].processes;
