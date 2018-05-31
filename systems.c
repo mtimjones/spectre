@@ -46,7 +46,7 @@ system_t systems[ NUM_SYSTEMS ] = {
                .active = 1 },
          .files[4] = {
                "sleeper",
-                "Put a named process (pid) to sleep for some time.\n"
+                "Put a named process (pid) to sleep for 7 seconds.\n"
                 "This can be used to passively manipulate a system.\n"
                 "InstallTicks: 3000\n"
                 "RunTicks: 1\n"
