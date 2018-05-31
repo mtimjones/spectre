@@ -152,3 +152,64 @@ int find_system( char *address )
 
    return -1;
 }
+
+void move_file( int to_system, int from_system, char *file )
+{
+   int file_index = find_file( from_system, file );
+   
+   if ( file_index != -1 )
+   {
+      // For the bitcoin file, accumulate this amount
+      if ( strncmp( file, "bitcoin", 7 ) == 0 )
+      {
+         int target_file_index = find_file( to_system, "bitcoin" );
+
+         if ( target_file_index != -1 )
+         {
+            int value = atoi( systems[ from_system ].
+                                 filesystem.files[ file_index ].contents );
+
+            systems[ from_system ].filesystem.files[ file_index ].active = 0;
+
+            value += atoi( systems[ to_system ].
+                        filesystem.files[ target_file_index ].contents );
+
+            sprintf( systems[ to_system ].filesystem.
+                        files[ target_file_index ].contents, "%d\n", value );
+         }
+      }
+      else
+      {
+         int target_file_index = find_file( to_system, file );
+
+         if ( target_file_index != -1 )
+         {
+            // Increase the quantity of this file.
+            systems[ to_system ].filesystem.files[ target_file_index ].quantity++;
+         }
+         else
+         {
+            // Copy new file
+            target_file_index = find_empty_file( 0 );
+            systems[ to_system ].filesystem.files[ target_file_index ] =
+               systems[ from_system ].filesystem.files[ file_index ];
+         }
+
+         systems[ from_system ].filesystem.files[ target_file_index ].quantity--;
+         if ( !systems[ from_system ].filesystem.files[ target_file_index ].quantity )
+         {
+            systems[ from_system ].filesystem.files[ target_file_index ].active = 0;
+         }
+
+      }
+
+      add_message( "File move successful." );
+   }
+   else
+   {
+      add_message( "File not found." );
+   }
+
+   return;
+}
+

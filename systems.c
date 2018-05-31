@@ -98,26 +98,47 @@ system_t systems[ NUM_SYSTEMS ] = {
          .discoverable = 1,
       },
       .filesystem = {
-            .files[0] = { 
-                  "bitcoin", 
-                   "50\n", 
-                  "rw-rw-rw-", 
-                  .quantity = 1,
-                  .active = 1 },
-            .files[1] = { 
-                  "mapinfo", 
-                   "World street map\n"
-                   "** binary data\n", 
-                  "rw-rw-rw-", 
-                  .quantity = 1,
-                  .active = 1 },
-            .files[2] = { 
-                  "messages", 
-                   "Received from 17.9.1.129, 05-JUN-2066 20:08:03\n"
-                   "Package received.\n", 
-                  "rw-rw-rw-", 
-                  .quantity = 1,
-                  .active = 1 },
+         .files[0] = { 
+               "bitcoin", 
+                "50\n", 
+               "rw-rw-rw-", 
+               .quantity = 1,
+               .active = 1 },
+         .files[1] = { 
+               "mapinfo", 
+                "World street map\n"
+                "** binary data\n", 
+               "rw-rw-rw-", 
+               .quantity = 1,
+               .active = 1 },
+         .files[2] = { 
+               "messages", 
+                "Received from 17.9.1.129, 05-JUN-2066 20:08:03\n"
+                "Package received.\n", 
+               "rw-rw-rw-", 
+               .quantity = 1,
+               .active = 1 },
+         .files[3] = {
+               "tracer",
+                "Trace hosts from this system.\n"
+                "InstallTicks: 3000\n"
+                "RunPeriod: 2000\n"
+                "RunTicks: 3\n",
+               "rwxrwxrwx", 
+               .exploit = tracer_func,
+               .quantity = 1,
+               .active = 1 },
+         .files[4] = {
+               "sleeper",
+                "Put a named process (pid) to sleep for some time.\n"
+                "This can be used to passively manipulate a system.\n"
+                "InstallTicks: 3000\n"
+                "RunTicks: 1\n"
+                "RunPeriod: 6000\n",
+               "rwxrwxrwx", 
+               .exploit = sleeper_func,
+               .quantity = 1,
+               .active = 1 },
       },
       .processes = {
          .process[0] = {

@@ -53,6 +53,7 @@ int  find_empty_file( int system );
 int  find_empty_process( void );
 void create_process_from_file( int pindex, int findex, unsigned int arg );
 int  find_system( char *ip_address );
+void move_file( int to, int from, char *file );
 
 // System stack API
 void init_system( int system );

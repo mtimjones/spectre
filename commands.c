@@ -12,6 +12,7 @@ void kill_command( args *arguments );
 void exec_command( args *arguments );
 void connect_command( args *arguments );
 void get_command( args *arguments );
+void put_command( args *arguments );
 void exit_command( args *arguments );
 void rls_command( args *arguments );
 void rm_command( args *arguments );
@@ -30,6 +31,7 @@ commands command_list[ MAX_COMMANDS ] = {
    { "connect", "Connect to a system using its IP address.", connect_command },
    { "rls",     "Remote ls (list files on the home system).", rls_command },
    { "get",     "Get a file from a remote system.", get_command },
+   { "put",     "Put a file to a remote system.", put_command },
    { "exit",    "Exit the current system.", exit_command },
 };
 
@@ -281,6 +283,10 @@ void exec_command( args *arguments )
       }
 
    }
+   else
+   {
+      add_message( "File not found." );
+   }
 
    return;
 }
@@ -360,6 +366,9 @@ void get_command( args *arguments )
    }
    else
    {
+      move_file( 0, current_system( ), arguments->args[ 1 ] );
+
+#if 0
       file_index = find_file( current_system( ), arguments->args[ 1 ] );
       
       if ( file_index != -1 )
@@ -388,9 +397,8 @@ void get_command( args *arguments )
 
             if ( home_file_index != -1 )
             {
-               // Overwrite home file
-               systems[ 0 ].filesystem.files[ home_file_index ] =
-                  systems[ current_system( ) ].filesystem.files[ file_index ];
+               // Increase the quantity of this file.
+               systems[ 0 ].filesystem.files[ home_file_index ].quantity++;
             }
             else
             {
@@ -408,8 +416,19 @@ void get_command( args *arguments )
       {
          add_message( "File not found." );
       }
+#endif
    }
 
+   return;
+}
+
+void put_command( args *arguments )
+{
+   int file_index;
+
+   if ( arguments->num_args < 2 ) return;
+
+   move_file( current_system( ), 0, arguments->args[ 1 ] );
 
    return;
 }
