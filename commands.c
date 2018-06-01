@@ -227,6 +227,12 @@ void kill_command( args *arguments )
 
    if ( arguments->num_args < 2 ) return;
 
+   if ( can_execute( ) == 0 )
+   {
+      add_message( "Security exception." );
+      return;
+   }
+
    for ( int i = 0 ; i < MAX_PROCESSES ; i++ )
    {
       if ( processes->process[ i ].pid == atoi( arguments->args[ 1 ] ) )
@@ -359,6 +365,12 @@ void get_command( args *arguments )
    int file_index;
 
    if ( arguments->num_args < 2 ) return;
+
+   if ( can_execute( ) == 0 ) 
+   {
+      add_message( "Security exception." );
+      return;
+   }
 
    if ( current_system( ) == 0 )
    {

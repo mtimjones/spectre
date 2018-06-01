@@ -229,3 +229,34 @@ void move_file( int to_system, int from_system, char *file )
    return;
 }
 
+static int security_exception( int process_index, char *program, int size )
+{
+   processes_t *processes = &systems[ current_system( ) ].processes;
+
+   if ( strncmp( processes->process[ process_index ].name, program, size ) == 0 )
+   {
+      if ( processes->process[ process_index ].state == RUNNING )
+      {
+         return 1;
+      }
+   }
+
+   return 0;
+}
+
+int can_execute( void )
+{
+   processes_t *processes = &systems[ current_system( ) ].processes;
+
+   for ( int i = 0 ; i < MAX_PROCESSES ; i++ )
+   {
+      if ( processes->process[ i ].flags.active )
+      {
+         if ( security_exception( i, "scanner", 7 ) ) return 0;
+         if ( security_exception( i, "sentry", 6 ) ) return 0;
+      }
+   }
+
+   return 1;
+}
+

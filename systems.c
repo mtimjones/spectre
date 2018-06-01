@@ -216,7 +216,7 @@ system_t systems[ NUM_SYSTEMS ] = {
             .state = RUNNING,
             .flags = {
                .active = 1,
-               .killable = 0,
+               .killable = 1,
             },
          },
       },

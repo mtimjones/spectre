@@ -55,6 +55,7 @@ int  find_process( unsigned short pid );
 void create_process_from_file( int pindex, int findex, unsigned int arg );
 int  find_system( char *ip_address );
 void move_file( int to, int from, char *file );
+int  can_execute( void );
 
 // System stack API
 void init_system( int system );
