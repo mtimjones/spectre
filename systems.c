@@ -30,7 +30,10 @@ system_t systems[ NUM_SYSTEMS ] = {
                .active = 1 },
          .files[2] = { 
                "tasks", 
-                "quest information\n", 
+               "Connect to a system (use tracer to find one) and then\n"
+               "steal that systems's bitcoin.  If the system has security\n"
+               "you'll need to put it to sleep before you can kill it and\n"
+               "extract the bitcoin.\n",
                "rw-r--r--", 
                .quantity = 1,
                .active = 1 },
