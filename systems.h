@@ -88,7 +88,7 @@ typedef struct
    system_flags      flags;
 } system_t;
 
-#define NUM_SYSTEMS   2
+#define NUM_SYSTEMS   4
 
 extern system_t systems[];
 

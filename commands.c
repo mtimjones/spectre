@@ -304,6 +304,12 @@ void connect_command( args *arguments )
 
    if ( arguments->num_args < 2 ) return;
 
+   if ( can_execute( ) == 0 ) 
+   {
+      add_message( "Security exception." );
+      return;
+   }
+
    connection = find_system( arguments->args[ 1 ] );
 
    if ( connection != -1 )

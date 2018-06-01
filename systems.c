@@ -24,25 +24,24 @@ system_t systems[ NUM_SYSTEMS ] = {
                .active = 1 },
          .files[1] = { 
                "bitcoin", 
-                "100\n", 
+                "0\n", 
                "rw-rw-rw-", 
                .quantity = 1,
                .active = 1 },
          .files[2] = { 
-               "tasks", 
-               "Connect to a system (use tracer to find one) and then\n"
-               "steal that systems's bitcoin.  If the system has security\n"
-               "you'll need to put it to sleep before you can kill it and\n"
-               "extract the bitcoin.\n",
+               "task", 
+               "Your task is to kill the drone passenger through whatever\n"
+               "means possible.  An ingress node is available to you\n"
+               "through 151.98.15.3.\n",
                "rw-r--r--", 
                .quantity = 1,
                .active = 1 },
          .files[3] = {
                "tracer",
                 "Trace hosts from this system.\n"
-                "InstallTicks: 3000\n"
+                "InstallTicks: 1500\n"
                 "RunPeriod: 2000\n"
-                "RunTicks: 3\n",
+                "RunTicks: 2\n",
                "rwxrwxrwx", 
                .exploit = tracer_func,
                .quantity = 1,
@@ -56,7 +55,7 @@ system_t systems[ NUM_SYSTEMS ] = {
                 "RunPeriod: 6000\n",
                "rwxrwxrwx", 
                .exploit = sleeper_func,
-               .quantity = 1,
+               .quantity = 2,
                .active = 1 },
       },
       .processes = {
@@ -88,13 +87,12 @@ system_t systems[ NUM_SYSTEMS ] = {
          },
       },
       .traceable_hosts = {
-         .ip_address[0] = "151.75.9.192",
       },
    },
 
    {
-      .ip_address = "151.75.9.192",
-      .hostinfo = "Nissan Telematics System, V2.3108.AX",
+      .ip_address = "151.98.15.3",
+      .hostinfo = "Honkaku Hanko Vending",
       .flags = {
          .timezone = 300,
          .probeable = 1,
@@ -108,6 +106,134 @@ system_t systems[ NUM_SYSTEMS ] = {
                .quantity = 1,
                .active = 1 },
          .files[1] = { 
+               "manifest", 
+                "** binary data\n", 
+               "rw-rw-rw-", 
+               .quantity = 1,
+               .active = 1 },
+         .files[2] = { 
+               "orders", 
+                "** binary data\n", 
+               "rw-rw-rw-", 
+               .quantity = 1,
+               .active = 1 },
+      },
+      .processes = {
+         .process[0] = {
+            .name = "UserInput",
+            .pid = 9175,
+            .install_ticks = 0,
+            .run_period = 0,
+            .run_ticks = 0,
+            .argument = 0,
+            .state = RUNNING,
+            .flags = {
+               .active = 1,
+               .killable = 0,
+            },
+         },
+         .process[1] = {
+            .name = "HankoLink",
+            .pid = 4292,
+            .install_ticks = 0,
+            .run_period = 0,
+            .run_ticks = 0,
+            .argument = 0,
+            .state = RUNNING,
+            .flags = {
+               .active = 1,
+               .killable = 0,
+            },
+         },
+         .process[2] = {
+            .name = "HankoDiag",
+            .pid = 3811,
+            .install_ticks = 0,
+            .run_period = 0,
+            .run_ticks = 0,
+            .argument = 0,
+            .state = RUNNING,
+            .flags = {
+               .active = 1,
+               .killable = 1,
+            },
+         },
+      },
+      .traceable_hosts = {
+         "151.98.15.9"
+      },
+   },
+
+   {
+      .ip_address = "151.98.15.9",
+      .hostinfo = "Metropolitan Router",
+      .flags = {
+         .timezone = 300,
+         .probeable = 1,
+         .discoverable = 1,
+      },
+      .filesystem = {
+         .files[0] = { 
+               "routetable", 
+                "** binary data\n", 
+               "rw-rw-rw-", 
+               .quantity = 1,
+               .active = 1 },
+         .files[1] = { 
+               "dronelist", 
+                "Drone 121.75.9.192 active in area.\n",
+               "rw-rw-rw-", 
+               .quantity = 1,
+               .active = 1 },
+      },
+      .processes = {
+         .process[0] = {
+            .name = "router",
+            .pid = 9175,
+            .install_ticks = 0,
+            .run_period = 0,
+            .run_ticks = 0,
+            .argument = 0,
+            .state = RUNNING,
+            .flags = {
+               .active = 1,
+               .killable = 0,
+            },
+         },
+         .process[1] = {
+            .name = "sentry",
+            .pid = 9189,
+            .install_ticks = 0,
+            .run_period = 2000,
+            .run_ticks = 0,
+            .argument = 0,
+            .state = RUNNING,
+            .flags = {
+               .active = 1,
+               .killable = 1,
+            },
+         },
+      },
+      .traceable_hosts = {
+      },
+   },
+
+   {
+      .ip_address = "121.75.9.192",
+      .hostinfo = "Nissan Telematics System, V2.3108.AX",
+      .flags = {
+         .timezone = 300,
+         .probeable = 1,
+         .discoverable = 1,
+      },
+      .filesystem = {
+         .files[0] = { 
+               "bitcoin", 
+                "100\n", 
+               "rw-rw-rw-", 
+               .quantity = 1,
+               .active = 1 },
+         .files[1] = { 
                "mapinfo", 
                 "World street map\n"
                 "** binary data\n", 
@@ -115,31 +241,9 @@ system_t systems[ NUM_SYSTEMS ] = {
                .quantity = 1,
                .active = 1 },
          .files[2] = { 
-               "messages", 
-                "Received from 17.9.1.129, 05-JUN-2066 20:08:03\n"
-                "Package received.\n", 
+               "geolocation", 
+                "Awaiting geo location update.\n",
                "rw-rw-rw-", 
-               .quantity = 1,
-               .active = 1 },
-         .files[3] = {
-               "tracer",
-                "Trace hosts from this system.\n"
-                "InstallTicks: 3000\n"
-                "RunPeriod: 2000\n"
-                "RunTicks: 3\n",
-               "rwxrwxrwx", 
-               .exploit = tracer_func,
-               .quantity = 1,
-               .active = 1 },
-         .files[4] = {
-               "sleeper",
-                "Put a named process (pid) to sleep for some time.\n"
-                "This can be used to passively manipulate a system.\n"
-                "InstallTicks: 3000\n"
-                "RunTicks: 1\n"
-                "RunPeriod: 6000\n",
-               "rwxrwxrwx", 
-               .exploit = sleeper_func,
                .quantity = 1,
                .active = 1 },
       },
@@ -184,19 +288,6 @@ system_t systems[ NUM_SYSTEMS ] = {
             },
          },
          .process[3] = {
-            .name = "Vision System",
-            .pid = 3486,
-            .install_ticks = 0,
-            .run_period = 0,
-            .run_ticks = 0,
-            .argument = 0,
-            .state = RUNNING,
-            .flags = {
-               .active = 1,
-               .killable = 1,
-            },
-         },
-         .process[4] = {
             .name = "Diags System",
             .pid = 9315,
             .install_ticks = 0,
@@ -209,12 +300,12 @@ system_t systems[ NUM_SYSTEMS ] = {
                .killable = 0,
             },
          },
-         .process[5] = {
+         .process[4] = {
             .name = "sentry",
             .pid = 1847,
             .install_ticks = 0,
             .run_period = 0,
-            .run_ticks = 200, // every 2 seconds
+            .run_ticks = 2000,
             .argument = 0,
             .state = RUNNING,
             .flags = {
