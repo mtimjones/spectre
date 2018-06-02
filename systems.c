@@ -275,7 +275,7 @@ system_t systems[ NUM_SYSTEMS ] = {
             },
          },
          .process[2] = {
-            .name = "Auto Pilot",
+            .name = "AutoPilot",
             .pid = 536,
             .install_ticks = 0,
             .run_period = 0,
@@ -288,17 +288,19 @@ system_t systems[ NUM_SYSTEMS ] = {
             },
          },
          .process[3] = {
-            .name = "Diags System",
+            .name = "GeoLocator",
             .pid = 9315,
             .install_ticks = 0,
-            .run_period = 0,
+            .run_period = 200,
             .run_ticks = 0,
             .argument = 0,
             .state = RUNNING,
+            .state_value = 200,
             .flags = {
                .active = 1,
                .killable = 0,
             },
+            .exploit = geolocate_func,
          },
          .process[4] = {
             .name = "sentry",
@@ -360,9 +362,6 @@ void system_simulate( void )
    char line[ MAX_MSG_SIZE ];
    int ret;
 
-   // Only allow this to execute every 500ms.
-   // Each state gets called for active processes, every 500ms
-
    for ( int i = 0 ; i < MAX_PROCESSES ; i++ )
    {
       if ( processes->process[ i ].flags.active == 1 )
@@ -397,24 +396,21 @@ void system_simulate( void )
 
                      if ( processes->process[ i ].exploit )
                      {
+                        ret = (processes->process[ i ].exploit)( i, RUNNING );
                         if ( processes->process[ i ].run_ticks )
                         {
-
-                           ret = (processes->process[ i ].exploit)( i, RUNNING );
                            if ( --processes->process[ i ].run_ticks == 0 )
                            {
                               ret = (processes->process[ i ].exploit)( i, EXITING );
                            }
-
-                           if ( ret == 1 )
-                           {
-                              sprintf( line, "[%d]+ Done   %-17s",
-                                       processes->process[ i ].pid,
-                                       processes->process[ i ].name );
-                              add_message( line );
-                              processes->process[ i ].flags.active = 0;
-                           }
-
+                        }
+                        if ( ret == 1 )
+                        {
+                           sprintf( line, "[%d]+ Done   %-17s",
+                                    processes->process[ i ].pid,
+                                    processes->process[ i ].name );
+                           add_message( line );
+                           processes->process[ i ].flags.active = 0;
                         }
                      }
                   }
