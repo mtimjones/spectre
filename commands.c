@@ -385,56 +385,6 @@ void get_command( args *arguments )
    else
    {
       move_file( 0, current_system( ), arguments->args[ 1 ] );
-
-#if 0
-      file_index = find_file( current_system( ), arguments->args[ 1 ] );
-      
-      if ( file_index != -1 )
-      {
-         // For the bitcoin file, accumulate this amount
-         if ( strncmp( arguments->args[ 1 ], "bitcoin", 7 ) == 0 )
-         {
-            int home_file_index = find_file( 0, "bitcoin" );
- 
-            if ( home_file_index != -1 )
-            {
-               int value = atoi( systems[ current_system( ) ].
-                                    filesystem.files[ file_index ].contents );
-
-               systems[ current_system( ) ].filesystem.files[ file_index ].active = 0;
-
-               value += atoi( systems[ 0 ].filesystem.files[ home_file_index ].contents );
-
-               sprintf( systems[ 0 ].filesystem.files[ home_file_index ].contents, 
-                           "%d\n", value );
-            }
-         }
-         else 
-         {
-            int home_file_index = find_file( 0, arguments->args[ 1 ] );
-
-            if ( home_file_index != -1 )
-            {
-               // Increase the quantity of this file.
-               systems[ 0 ].filesystem.files[ home_file_index ].quantity++;
-            }
-            else
-            {
-               // Copy new file
-               home_file_index = find_empty_file( 0 );
-               systems[ 0 ].filesystem.files[ home_file_index ] =
-                  systems[ current_system( ) ].filesystem.files[ file_index ];
-            }
-         
-         }
-
-         add_message( "File get successful." );
-      }
-      else
-      {
-         add_message( "File not found." );
-      }
-#endif
    }
 
    return;
@@ -446,7 +396,14 @@ void put_command( args *arguments )
 
    if ( arguments->num_args < 2 ) return;
 
-   move_file( current_system( ), 0, arguments->args[ 1 ] );
+   if ( current_system( ) == 0 )
+   {
+      add_message( "This command can only be executed on remote systems." );
+   }
+   else
+   {
+      move_file( current_system( ), 0, arguments->args[ 1 ] );
+   }
 
    return;
 }

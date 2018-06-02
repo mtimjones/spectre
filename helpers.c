@@ -209,12 +209,13 @@ void move_file( int to_system, int from_system, char *file )
             target_file_index = find_empty_file( 0 );
             systems[ to_system ].filesystem.files[ target_file_index ] =
                systems[ from_system ].filesystem.files[ file_index ];
+            systems[ to_system ].filesystem.files[ target_file_index ].quantity = 1;
          }
 
-         systems[ from_system ].filesystem.files[ target_file_index ].quantity--;
-         if ( !systems[ from_system ].filesystem.files[ target_file_index ].quantity )
+         systems[ from_system ].filesystem.files[ file_index ].quantity--;
+         if ( !systems[ from_system ].filesystem.files[ file_index ].quantity )
          {
-            systems[ from_system ].filesystem.files[ target_file_index ].active = 0;
+            systems[ from_system ].filesystem.files[ file_index ].active = 0;
          }
 
       }

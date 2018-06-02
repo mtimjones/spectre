@@ -30,17 +30,18 @@ system_t systems[ NUM_SYSTEMS ] = {
                .active = 1 },
          .files[2] = { 
                "task", 
-               "Your task is to kill the drone passenger through whatever\n"
-               "means possible.  An ingress node is available to you\n"
-               "through 151.98.15.3.\n",
+                "Your task is to kill the drone passenger through whatever\n"
+                "means possible (maybe kill the AutoPilot).  An ingress\n"
+                "node is available to you through 151.98.15.3.  Find your\n"
+                "way to the drone through that network.\n",
                "rw-r--r--", 
                .quantity = 1,
                .active = 1 },
          .files[3] = {
                "tracer",
                 "Trace hosts from this system.\n"
-                "InstallTicks: 1500\n"
-                "RunPeriod: 2000\n"
+                "InstallTicks: 1000\n"
+                "RunPeriod: 1000\n"
                 "RunTicks: 2\n",
                "rwxrwxrwx", 
                .exploit = tracer_func,
@@ -50,9 +51,9 @@ system_t systems[ NUM_SYSTEMS ] = {
                "sleeper",
                 "Put a named process (pid) to sleep for 7 seconds.\n"
                 "This can be used to passively manipulate a system.\n"
-                "InstallTicks: 3000\n"
+                "InstallTicks: 2000\n"
                 "RunTicks: 1\n"
-                "RunPeriod: 6000\n",
+                "RunPeriod: 3000\n",
                "rwxrwxrwx", 
                .exploit = sleeper_func,
                .quantity = 2,
