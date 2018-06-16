@@ -16,6 +16,7 @@ void put_command( args *arguments );
 void exit_command( args *arguments );
 void rls_command( args *arguments );
 void rm_command( args *arguments );
+void ping_command( args *arguments );
 
 commands command_list[ MAX_COMMANDS ] = {
    { "help",    "Get help about available system commands.", help_command },
@@ -25,6 +26,7 @@ commands command_list[ MAX_COMMANDS ] = {
    { "rm",      "Remove a file from the local filesystem.", rm_command },
    { "time",    "Get the current system time.", time_command },
    { "probe",   "Probe a system to determine its type.", probe_command },
+   { "ping",    "Ping a system to see if its online.", ping_command },
    { "ps",      "List the processes on the current host.", ps_command },
    { "kill",    "Kill a process on the current system.", kill_command },
    { "exec",    "Create a process from an executable file.", exec_command },
@@ -159,36 +161,55 @@ void time_command( args *arguments )
 
 void probe_command( args *arguments )
 {
+   int target_system;
+
    if ( arguments->num_args < 2 ) return;
 
-   // TODO: Need to use find_system here.
-   for ( int i = 0 ; i < NUM_SYSTEMS ; i++ )
+   target_system = find_system( arguments->args[ 1] );
+
+   if ( target_system != -1 )
    {
-      int size = MAX( strlen( systems[ i ].ip_address ),
-                      strlen( arguments->args[ 1 ] ) );
-
-      if ( strncmp( systems[ i ].ip_address, 
-            arguments->args[ 1 ], size ) == 0 )
+      if ( systems[ target_system ].flags.discoverable )
       {
-         if ( systems[ i ].flags.discoverable )
+         if ( systems[ target_system ].flags.probeable )
          {
-            if ( systems[ i ].flags.probeable )
-            {
-               char line[MAX_MSG_SIZE];
+            char line[MAX_MSG_SIZE];
 
-               sprintf( line, "%s (%s)", systems[ i ].hostinfo, 
-                           systems[ i ].ip_address );
+            sprintf( line, "%s (%s)", systems[ target_system ].hostinfo, 
+                        systems[ target_system ].ip_address );
 
-               add_message( line );
-            }
-            else
-            {
-               add_message( "Host found but cannot probe." );
-            }
-
-            return;
+            add_message( line );
+         }
+         else
+         {
+            add_message( "Host found but cannot probe." );
          }
 
+         return;
+      }
+
+   }
+
+   add_message( "Host not found." );
+
+   return;
+}
+
+void ping_command( args *arguments )
+{
+   int target_system;
+
+   if ( arguments->num_args < 2 ) return;
+
+   target_system = find_system( arguments->args[ 1 ] );
+
+   if ( target_system != -1 )
+   {
+      if ( systems[ target_system ].flags.discoverable )
+      {
+         add_message( "Host is alive." );
+
+         return;
       }
 
    }

@@ -21,7 +21,7 @@ typedef struct
    command function;
 } commands;
 
-#define MAX_COMMANDS  15
+#define MAX_COMMANDS  16
 
 extern commands command_list[ MAX_COMMANDS ];
 
