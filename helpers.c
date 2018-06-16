@@ -133,6 +133,8 @@ void create_process_from_file( int pindex, int findex, unsigned int arg )
       parse_attribute( filesystem->files[ findex ].contents, "RunPeriod:" );
    processes->process[ pindex ].run_ticks =
       parse_attribute( filesystem->files[ findex ].contents, "RunTicks:" );
+   processes->process[ pindex ].strength =
+      parse_attribute( filesystem->files[ findex ].contents, "Strength:" );
    processes->process[ pindex ].argument = arg; 
    strcpy( processes->process[ pindex ].name, 
             filesystem->files[ findex ].filename );
@@ -162,7 +164,10 @@ int find_system( char *address )
       int size = MAX( strlen( address  ), strlen( systems[ i ].ip_address ) );
       if ( strncmp( address, systems[ i ].ip_address, size ) == 0 )
       {
-         return i;
+         if ( systems[ i ].flags.alive )
+         {
+            return i;
+         }
       }
    }
 

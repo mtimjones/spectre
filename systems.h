@@ -71,6 +71,7 @@ typedef struct
    unsigned int timezone:16;
    unsigned int active:1;
    unsigned int probeable:1;
+   unsigned int alive:1;
    unsigned int discoverable:1;
    unsigned int tracingActive:1;
    unsigned int miningActive:1;

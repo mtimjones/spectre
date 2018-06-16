@@ -9,6 +9,7 @@ system_t systems[ NUM_SYSTEMS ] = {
          .timezone = 0,
          .probeable = 1,
          .discoverable = 1,
+         .alive = 1,
       },
       .filesystem = { 
          .files[0] = 
@@ -51,6 +52,7 @@ system_t systems[ NUM_SYSTEMS ] = {
                "sleeper",
                 "Put a named process (pid) to sleep for 7 seconds.\n"
                 "This can be used to passively manipulate a system.\n"
+                "Strength: 7\n"
                 "InstallTicks: 2000\n"
                 "RunTicks: 1\n"
                 "RunPeriod: 3000\n",
@@ -98,6 +100,7 @@ system_t systems[ NUM_SYSTEMS ] = {
          .timezone = 300,
          .probeable = 1,
          .discoverable = 1,
+         .alive = 1,
       },
       .filesystem = {
          .files[0] = { 
@@ -172,6 +175,7 @@ system_t systems[ NUM_SYSTEMS ] = {
          .timezone = 300,
          .probeable = 1,
          .discoverable = 1,
+         .alive = 1,
       },
       .filesystem = {
          .files[0] = { 
@@ -208,6 +212,7 @@ system_t systems[ NUM_SYSTEMS ] = {
             .run_period = 2000,
             .run_ticks = 0,
             .argument = 0,
+            .strength = 6,
             .state = RUNNING,
             .flags = {
                .active = 1,
@@ -226,6 +231,7 @@ system_t systems[ NUM_SYSTEMS ] = {
          .timezone = 300,
          .probeable = 1,
          .discoverable = 1,
+         .alive = 1,
       },
       .filesystem = {
          .files[0] = { 
@@ -310,6 +316,7 @@ system_t systems[ NUM_SYSTEMS ] = {
             .run_period = 0,
             .run_ticks = 2000,
             .argument = 0,
+            .strength = 6,
             .state = RUNNING,
             .flags = {
                .active = 1,

@@ -161,6 +161,7 @@ void probe_command( args *arguments )
 {
    if ( arguments->num_args < 2 ) return;
 
+   // TODO: Need to use find_system here.
    for ( int i = 0 ; i < NUM_SYSTEMS ; i++ )
    {
       int size = MAX( strlen( systems[ i ].ip_address ),
