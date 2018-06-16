@@ -60,6 +60,16 @@ system_t systems[ NUM_SYSTEMS ] = {
                .exploit = sleeper_func,
                .quantity = 2,
                .active = 1 },
+         .files[5] = {
+               "miner",
+                "Mine bitcoin from a system.\n"
+                "Strength: 5\n"
+                "InstallTicks: 6000\n"
+                "RunTicks: 0\n"
+                "RunPeriod: 5000\n",
+               "rwxrwxrwx", 
+               .quantity = 1,
+               .active = 1 },
       },
       .processes = {
          .process[0] = {
@@ -442,6 +452,8 @@ void system_simulate( void )
          }
       }
    }
+
+   // Simulate miners
 
    return;
 }
