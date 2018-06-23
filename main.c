@@ -13,7 +13,10 @@ int main( int argc, char *argv[] )
 
    win_startup( );
 
-   add_message( "Connected to 18.75.0.9" );
+   add_message( "CyberOS uKernel started (18.75.0.9)." );
+   add_message( "CortextLink detected... attached." );
+   add_message( "Process slots available... 4." );
+   add_message( "" );
    add_message( "Type help for more information." );
 
    init_system( 0 );

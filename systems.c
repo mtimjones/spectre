@@ -373,6 +373,23 @@ void system_exec( char* line )
    return;
 }
 
+#define MINER_PERIOD     5000 // 5 seconds
+
+void simulate_miners( void )
+{
+   static int timer = MINER_PERIOD;
+
+   timer -= MS_PER_FRAME;
+
+   if ( timer <= 0 )
+   {
+      add_message( "simulate_miners" );
+      timer = MINER_PERIOD;
+   }
+
+   return;
+}
+
 
 void system_simulate( void )
 {
@@ -454,6 +471,7 @@ void system_simulate( void )
    }
 
    // Simulate miners
+   simulate_miners( );
 
    return;
 }
