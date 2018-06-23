@@ -12,19 +12,23 @@
 // Size of the UI
 #define NLINES      ( 32 )
 #define NCOLS       ( 60 )
+#define CCOLS       ( 40 )
 
 // 100Hz Game Loop
 #define MS_PER_FRAME  10
 
 // Max number of window messages
-#define MAX_MESSAGES   ( NLINES - 3 )
-#define MAX_MSG_SIZE   ( NCOLS - 2 )
-
+#define MAX_MESSAGES       ( NLINES - 3 )
+#define MAX_MSG_SIZE       ( NCOLS - 2  )
+#define MAX_CHAT_MESSAGES  ( NLINES - 2 )
+#define MAX_CHAT_MSG_SIZE  ( CCOLS - 2  )
 
 // Messages API
 void init_messages( void );
 void add_message( char *msg );
 char* get_message( int pos );
+void add_chat_message( char *msg );
+char *get_chat_message( int pos );
 
 // Screen API
 void win_startup( void );

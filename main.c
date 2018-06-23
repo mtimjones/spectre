@@ -19,6 +19,8 @@ int main( int argc, char *argv[] )
    add_message( "" );
    add_message( "Type help for more information." );
 
+   add_chat_message( "Chat connection opened." );
+
    init_system( 0 );
 
    win_update( );

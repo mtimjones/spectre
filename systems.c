@@ -383,7 +383,6 @@ void simulate_miners( void )
 
    if ( timer <= 0 )
    {
-      add_message( "simulate_miners" );
       timer = MINER_PERIOD;
    }
 

@@ -2,6 +2,7 @@
 #include <ncurses.h>
 
 WINDOW *mainwin;
+WINDOW *chatwin;
 
 // Offset to center game pane in the available window.
 int offsetx, offsety;
@@ -28,12 +29,15 @@ void win_startup( void )
    curs_set( 0 );
    nonl( );
 
-   offsety = ( LINES - NLINES ) / 2;
-   offsetx = ( COLS - NCOLS ) / 2;
+//   offsety = ( LINES - NLINES ) / 2;
+//   offsetx = ( COLS - NCOLS ) / 2;
+   offsety = offsetx = 0;
 
    mainwin = newwin( NLINES, NCOLS, offsety, offsetx );
    nodelay( mainwin, TRUE );
    keypad( mainwin, TRUE );
+
+   chatwin = newwin( NLINES, CCOLS, 0, NCOLS );
 
    return;
 }
@@ -46,10 +50,16 @@ void win_update( void )
    extern int exit_y, exit_x;
 
    wborder( mainwin, 0, 0, 0, 0, 0, 0, 0, 0 );
+   wborder( chatwin, 0, 0, 0, 0, 0, 0, 0, 0 );
 
    for ( int i = 0 ; i < MAX_MESSAGES ; i++ )
    {
       mvwprintw( mainwin, ( i+1 ), 1, "%s", get_message( i ) );
+   }
+
+   for ( int i = 0 ; i < MAX_CHAT_MESSAGES ; i++ )
+   {
+      mvwprintw( chatwin, ( i+1 ), 1, "%s", get_chat_message( i ) );
    }
 
    mvwprintw( mainwin, NLINES-2, 1, 
@@ -57,6 +67,7 @@ void win_update( void )
    mvwprintw( mainwin, NLINES-2, 1, "%s", get_user_input_line() );
 
    wrefresh( mainwin );
+   wrefresh( chatwin );
 
    return;
 }

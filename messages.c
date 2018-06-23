@@ -6,12 +6,15 @@
 #define MAX_MSG_SIZE   ( NCOLS - 2 )
 
 static int write_ptr = 0;
+static int chat_write_ptr = 0;
 
 char messages[ MAX_MESSAGES ][ MAX_MSG_SIZE ];
+char chat_messages[ MAX_CHAT_MESSAGES ][ MAX_CHAT_MSG_SIZE ];
 
 void init_messages( void )
 {
    bzero( messages, sizeof( messages ) );
+   bzero( chat_messages, sizeof( chat_messages ) );
    return;
 }
 
@@ -39,6 +42,30 @@ void add_message( char *msg )
    return;
 }
 
+void add_chat_message( char *msg )
+{
+   int i = 0;
+   size_t len = strlen( msg );
+
+   // Copy the message into the buffer and pad with spaces
+   while ( i < ( MAX_CHAT_MSG_SIZE - 1 ) )
+   {
+      if ( i < len ) chat_messages[ chat_write_ptr ][ i ] = msg[ i ];
+      else chat_messages[ chat_write_ptr ][ i ] = ' ';
+      i++;
+   }
+
+   // Null terminate
+   chat_messages[ chat_write_ptr ][ ( MAX_CHAT_MSG_SIZE - 1 ) ] = 0;
+
+   if ( ++chat_write_ptr >= MAX_CHAT_MESSAGES  )
+   {
+      chat_write_ptr = 0;
+   }
+
+   return;
+}
+
 char *get_message( int pos )
 {
    int read_ptr;
@@ -53,3 +80,16 @@ char *get_message( int pos )
    return &messages[ read_ptr ][ 0 ];
 }
 
+char *get_chat_message( int pos )
+{
+   int read_ptr;
+
+   read_ptr = chat_write_ptr + pos;
+
+   if (read_ptr >= MAX_CHAT_MESSAGES )
+   {
+      read_ptr -= MAX_CHAT_MESSAGES;
+   }
+
+   return &chat_messages[ read_ptr ][ 0 ];
+}
