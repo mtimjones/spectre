@@ -61,6 +61,17 @@ system_t systems[ NUM_SYSTEMS ] = {
                "rwxrwxrwx", 
                .quantity = 1,
                .active = 1 },
+         .files[5] = {
+               "datatap",
+                "Tap into a process to reveal its data.\n"
+                "Strength: 5\n"
+                "InstallTicks: 8000\n"
+                "RunTicks: 0\n"
+                "RunPeriod: 2000\n",
+               "rwxrwxrwx", 
+               .exploit = datatap_func,
+               .quantity = 1,
+               .active = 1 },
       },
       .processes = {
          .process[0] = {
