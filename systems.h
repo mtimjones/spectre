@@ -101,4 +101,52 @@ typedef struct
    int top_index;
 } system_stack_t;
 
+// Macros
+
+#define TRACER \
+{ "tracer",                               \
+     "Trace hosts from this system.\n"    \
+     "InstallTicks: 1000\n"               \
+     "RunPeriod: 1000\n"                  \
+      "RunTicks: 2\n",                    \
+   "rwxrwxrwx",                           \
+   .exploit = tracer_func,                \
+   .quantity = 1,                         \
+   .active = 1 }
+
+#define SLEEPER \
+{ "sleeper",                                                \
+     "Put a named process (pid) to sleep for 7 seconds.\n"  \
+     "This can be used to passively manipulate a system.\n" \
+     "Strength: 7\n"                                        \
+     "InstallTicks: 2000\n"                                 \
+     "RunTicks: 1\n"                                        \
+     "RunPeriod: 3000\n",                                   \
+   "rwxrwxrwx",                                             \
+   .exploit = sleeper_func,                                 \
+   .quantity = 1,                                           \
+   .active = 1 }
+
+#define MINER \
+{ "miner",                            \
+     "Mine bitcoin from a system.\n"  \
+     "Strength: 5\n"                  \
+     "InstallTicks: 6000\n"           \
+     "RunTicks: 0\n"                  \
+     "RunPeriod: 5000\n",             \
+   "rwxrwxrwx",                       \
+   .quantity = 1,                     \
+   .active = 1 }
+
+#define DATATAP \
+{ "datatap",                                        \
+      "Tap into a process to reveal its data.\n"    \
+      "Strength: 5\n"                               \
+      "InstallTicks: 8000\n"                        \
+      "RunTicks: 0\n"                               \
+      "RunPeriod: 2000\n",                          \
+   "rwxrwxrwx",                                     \
+   .exploit = datatap_func,                         \
+   .quantity = 1,                                   \
+   .active = 1 }
 

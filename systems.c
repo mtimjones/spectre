@@ -29,53 +29,14 @@ system_t systems[ NUM_SYSTEMS ] = {
                "rw-rw-rw-", 
                .quantity = 1,
                .active = 1 },
-         .files[2] = {
-               "tracer",
-                "Trace hosts from this system.\n"
-                "InstallTicks: 1000\n"
-                "RunPeriod: 1000\n"
-                "RunTicks: 2\n",
-               "rwxrwxrwx", 
-               .exploit = tracer_func,
-               .quantity = 1,
-               .active = 1 },
-         .files[3] = {
-               "sleeper",
-                "Put a named process (pid) to sleep for 7 seconds.\n"
-                "This can be used to passively manipulate a system.\n"
-                "Strength: 7\n"
-                "InstallTicks: 2000\n"
-                "RunTicks: 1\n"
-                "RunPeriod: 3000\n",
-               "rwxrwxrwx", 
-               .exploit = sleeper_func,
-               .quantity = 2,
-               .active = 1 },
-         .files[4] = {
-               "miner",
-                "Mine bitcoin from a system.\n"
-                "Strength: 5\n"
-                "InstallTicks: 6000\n"
-                "RunTicks: 0\n"
-                "RunPeriod: 5000\n",
-               "rwxrwxrwx", 
-               .quantity = 1,
-               .active = 1 },
-         .files[5] = {
-               "datatap",
-                "Tap into a process to reveal its data.\n"
-                "Strength: 5\n"
-                "InstallTicks: 8000\n"
-                "RunTicks: 0\n"
-                "RunPeriod: 2000\n",
-               "rwxrwxrwx", 
-               .exploit = datatap_func,
-               .quantity = 1,
-               .active = 1 },
+         .files[2] = TRACER,
+         .files[3] = SLEEPER,
+         .files[4] = MINER,
+         .files[5] = DATATAP,
       },
       .processes = {
          .process[0] = {
-            .name = "CyberOS uKernel",
+            .name = "cyberos ukernel",
             .pid = 1335,
             .install_ticks = 0,
             .run_period = 0,
@@ -88,7 +49,7 @@ system_t systems[ NUM_SYSTEMS ] = {
             },
          },
          .process[1] = {
-            .name = "CortexLink",
+            .name = "cortexlink",
             .pid = 6168,
             .install_ticks = 0,
             .run_period = 0,
@@ -133,10 +94,11 @@ system_t systems[ NUM_SYSTEMS ] = {
                "rw-rw-rw-", 
                .quantity = 1,
                .active = 1 },
+         .files[3] = SLEEPER,
       },
       .processes = {
          .process[0] = {
-            .name = "Keypad",
+            .name = "keypad",
             .pid = 9175,
             .install_ticks = 0,
             .run_period = 0,
@@ -149,7 +111,7 @@ system_t systems[ NUM_SYSTEMS ] = {
             },
          },
          .process[1] = {
-            .name = "HankoLink",
+            .name = "hankolink",
             .pid = 4292,
             .install_ticks = 0,
             .run_period = 0,
@@ -162,7 +124,7 @@ system_t systems[ NUM_SYSTEMS ] = {
             },
          },
          .process[2] = {
-            .name = "HankoDiag",
+            .name = "hankodiag",
             .pid = 3811,
             .install_ticks = 0,
             .run_period = 0,
@@ -268,7 +230,7 @@ system_t systems[ NUM_SYSTEMS ] = {
       },
       .processes = {
          .process[0] = {
-            .name = "Telematics Server",
+            .name = "telematics_server",
             .pid = 3395,
             .install_ticks = 0,
             .run_period = 0,
@@ -281,7 +243,7 @@ system_t systems[ NUM_SYSTEMS ] = {
             },
          },
          .process[1] = {
-            .name = "AirNet Link",
+            .name = "airnet_link",
             .pid = 9375,
             .install_ticks = 0,
             .run_period = 0,
@@ -294,7 +256,7 @@ system_t systems[ NUM_SYSTEMS ] = {
             },
          },
          .process[2] = {
-            .name = "AutoPilot",
+            .name = "autopilot",
             .pid = 536,
             .install_ticks = 0,
             .run_period = 0,
@@ -307,7 +269,7 @@ system_t systems[ NUM_SYSTEMS ] = {
             },
          },
          .process[3] = {
-            .name = "GeoLocator",
+            .name = "gps",
             .pid = 9315,
             .install_ticks = 0,
             .run_period = 200,
@@ -319,7 +281,7 @@ system_t systems[ NUM_SYSTEMS ] = {
                .active = 1,
                .killable = 0,
             },
-            .exploit = geolocate_func,
+            .exploit = drone_gps_func,
          },
          .process[4] = {
             .name = "sentry",
