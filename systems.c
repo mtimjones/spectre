@@ -125,7 +125,7 @@ system_t systems[ NUM_SYSTEMS ] = {
       },
       .processes = {
          .process[0] = {
-            .name = "UserInput",
+            .name = "Keypad",
             .pid = 9175,
             .install_ticks = 0,
             .run_period = 0,
@@ -134,7 +134,7 @@ system_t systems[ NUM_SYSTEMS ] = {
             .state = RUNNING,
             .flags = {
                .active = 1,
-               .killable = 0,
+               .killable = 1,
             },
          },
          .process[1] = {
