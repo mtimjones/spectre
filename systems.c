@@ -29,16 +29,7 @@ system_t systems[ NUM_SYSTEMS ] = {
                "rw-rw-rw-", 
                .quantity = 1,
                .active = 1 },
-         .files[2] = { 
-               "task", 
-                "Your task is to kill the drone passenger through whatever\n"
-                "means possible (maybe kill the AutoPilot).  An ingress\n"
-                "node is available to you through 151.98.15.3.  Find your\n"
-                "way to the drone through that network.\n",
-               "rw-r--r--", 
-               .quantity = 1,
-               .active = 1 },
-         .files[3] = {
+         .files[2] = {
                "tracer",
                 "Trace hosts from this system.\n"
                 "InstallTicks: 1000\n"
@@ -48,7 +39,7 @@ system_t systems[ NUM_SYSTEMS ] = {
                .exploit = tracer_func,
                .quantity = 1,
                .active = 1 },
-         .files[4] = {
+         .files[3] = {
                "sleeper",
                 "Put a named process (pid) to sleep for 7 seconds.\n"
                 "This can be used to passively manipulate a system.\n"
@@ -60,7 +51,7 @@ system_t systems[ NUM_SYSTEMS ] = {
                .exploit = sleeper_func,
                .quantity = 2,
                .active = 1 },
-         .files[5] = {
+         .files[4] = {
                "miner",
                 "Mine bitcoin from a system.\n"
                 "Strength: 5\n"

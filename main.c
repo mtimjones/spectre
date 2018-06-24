@@ -20,6 +20,13 @@ int main( int argc, char *argv[] )
    add_message( "Type help for more information." );
 
    add_chat_message( "Chat connection opened." );
+   add_chat_message( "You're back..." );
+   add_chat_message( "Let's start with something simple." );
+   add_chat_message( "Your task is to kill the drone" );
+   add_chat_message( "passenger.  An ingress node is" );
+   add_chat_message( "available through 151.98.15.3." );
+   add_chat_message( "Find your way to the drone" );
+   add_chat_message( "through this network..." );
 
    init_system( 0 );
 
