@@ -104,14 +104,15 @@ typedef struct
 // Macros
 
 #define TRACER \
-{ "tracer",                               \
-     "Trace hosts from this system.\n"    \
-     "InstallTicks: 1000\n"               \
-     "RunPeriod: 1000\n"                  \
-      "RunTicks: 2\n",                    \
-   "rwxrwxrwx",                           \
-   .exploit = tracer_func,                \
-   .quantity = 1,                         \
+{ "tracer",                                            \
+     "Trace hosts from this system.  Can be used to\n" \
+     "identify other connected hosts.\n"               \
+     "InstallTicks: 1000\n"                            \
+     "RunPeriod: 1000\n"                               \
+      "RunTicks: 2\n",                                 \
+   "rwxrwxrwx",                                        \
+   .exploit = tracer_func,                             \
+   .quantity = 1,                                      \
    .active = 1 }
 
 #define SLEEPER \
@@ -128,25 +129,26 @@ typedef struct
    .active = 1 }
 
 #define MINER \
-{ "miner",                            \
-     "Mine bitcoin from a system.\n"  \
-     "Strength: 5\n"                  \
-     "InstallTicks: 6000\n"           \
-     "RunTicks: 0\n"                  \
-     "RunPeriod: 5000\n",             \
-   "rwxrwxrwx",                       \
-   .quantity = 1,                     \
+{ "miner",                                                    \
+     "Mine bitcoin from a system.  You must have a\n"         \
+     "collector process in your home system to collect it.\n" \
+     "Strength: 5\n"                                          \
+     "InstallTicks: 6000\n"                                   \
+     "RunTicks: 0\n"                                          \
+     "RunPeriod: 5000\n",                                     \
+   "rwxrwxrwx",                                               \
+   .quantity = 1,                                             \
    .active = 1 }
 
 #define DATATAP \
-{ "datatap",                                        \
-      "Tap into a process to reveal its data.\n"    \
-      "Strength: 5\n"                               \
-      "InstallTicks: 8000\n"                        \
-      "RunTicks: 0\n"                               \
-      "RunPeriod: 2000\n",                          \
-   "rwxrwxrwx",                                     \
-   .exploit = datatap_func,                         \
-   .quantity = 1,                                   \
+{ "datatap",                                                     \
+      "Tap into a running process to reveal its private data.\n" \
+      "Strength: 5\n"                                            \
+      "InstallTicks: 8000\n"                                     \
+      "RunTicks: 0\n"                                            \
+      "RunPeriod: 2000\n",                                       \
+   "rwxrwxrwx",                                                  \
+   .exploit = datatap_func,                                      \
+   .quantity = 1,                                                \
    .active = 1 }
 
