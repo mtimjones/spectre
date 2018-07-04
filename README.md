@@ -1,6 +1,7 @@
 # Hacking simulation
 
 An experiment in building a cyberpunk hacking simulation in C using ncurses.
+Implements a set of UNIX-like commands to navigate and exploit networked systems.
 
 
                ┌──────────────────────────────────────────────────────────┐
